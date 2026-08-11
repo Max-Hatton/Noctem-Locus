@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Astronomy Companion",
+  "version": "0.3.0",
+  "identifier": "com.astronomycompanion.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Astronomy Companion",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 860,
+        "minHeight": 620,
+        "resizable": true,
+        "fullscreen": false,
+        "backgroundColor": "#030000"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "shortDescription": "Offline-first astronomy observing companion",
+    "longDescription": "Offline astronomy software for planning and telescope-side observing.",
+    "category": "Education"
+  }
+}

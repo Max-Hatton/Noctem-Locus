@@ -1,0 +1,435 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="color-scheme" content="dark"><title>Astronomy Companion v0.4.1</title><style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#030000}button,input,select{font:inherit}button,select{cursor:pointer}.app{min-height:100vh;--bg:#080b10;--panel:#0e131b;--panel2:#131a24;--text:#edf4ff;--muted:#8d9aad;--accent:#75a7ff;--border:#202b39;--glow:rgba(117,167,255,.12);--good:#a9c8ff;background:var(--bg);color:var(--text)}.app.night{--bg:#030000;--panel:#0b0101;--panel2:#140202;--text:#ff4b3e;--muted:#a52f28;--accent:#ff3b2f;--border:#3a0a08;--glow:rgba(255,42,29,.11);--good:#ff5b50}.shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}.sidebar{position:relative;z-index:2;padding:26px 18px 20px;border-right:1px solid var(--border);background:linear-gradient(180deg,var(--panel),var(--bg));display:flex;flex-direction:column;gap:28px}.brand{display:flex;gap:12px;align-items:center}.brandMark{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--glow);border:1px solid var(--border);font-size:22px;color:var(--accent)}h1{font-size:15px;margin:0;letter-spacing:.03em}.brand p{margin:4px 0 0;font-size:12px;color:var(--muted)}nav{display:flex;flex-direction:column;gap:7px}.navButton{border:1px solid transparent;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;text-align:left}.navButton:hover,.navButton.active{color:var(--text);background:var(--glow);border-color:var(--border)}.nightControls{margin-top:auto;border:1px solid var(--border);background:var(--panel2);border-radius:14px;padding:14px;display:grid;gap:12px}.controlRow{display:flex;justify-content:space-between;align-items:center;font-size:13px}.toggle,.deepNight,.primaryButton,.secondaryButton{border:1px solid var(--border);background:var(--glow);color:var(--text);border-radius:8px;padding:8px 10px;font-size:12px}.primaryButton{padding:10px 14px}.secondaryButton{background:var(--panel2)}.nightControls label{color:var(--muted);font-size:12px;display:grid;gap:8px}.nightControls strong{color:var(--text);font-weight:600}input[type=range]{width:100%;accent-color:var(--accent)}.content{position:relative;z-index:2;padding:34px 42px 60px;min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.eyebrow{margin:0 0 7px;font-size:10px;font-weight:800;letter-spacing:.19em;color:var(--muted);text-transform:uppercase}h2{margin:0;font-size:29px;font-weight:650}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;border:1px solid var(--border);padding:8px 10px;border-radius:999px;background:var(--panel)}.statusDot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}.pageStack{display:grid;gap:16px}.heroCard{min-height:210px;padding:32px;border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 80% 20%,var(--glow),transparent 34%),var(--panel);display:flex;flex-direction:column;justify-content:space-between}.heroTopline{display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.heroCard h3{margin:0 0 12px;max-width:720px;font-size:34px;line-height:1.05}.heroBody{max-width:760px;color:var(--muted);line-height:1.6;margin:20px 0 0}.clockBlock{text-align:right;display:grid;gap:4px}.clockBlock strong{font-size:27px;font-weight:550}.clockBlock span{color:var(--muted);font-size:12px}.summaryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{min-height:145px;padding:20px;border:1px solid var(--border);border-radius:16px;background:var(--panel);display:flex;flex-direction:column}.cardLabel{font-size:12px;color:var(--muted)}.card strong{font-size:34px;margin:auto 0 4px;font-weight:500}.card small{color:var(--muted);line-height:1.4}.panel,.placeholder,.settingsCard{border:1px solid var(--border);border-radius:20px;background:var(--panel);padding:28px}.panelHeader,.settingsHeading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.panelHeader h3,.settingsHeading h3,.notePanel h3{margin:0}.mutedText{color:var(--muted);font-size:12px}.targetTable{display:grid;margin-top:20px}.targetRow{display:grid;grid-template-columns:1.4fr 1fr 1.2fr auto;gap:18px;align-items:center;padding:15px 0;border-top:1px solid var(--border)}.targetName,.targetMetric{display:grid;gap:3px}.targetName span,.targetMetric span{color:var(--muted);font-size:11px}.targetMetric strong{font-weight:550;font-size:14px}.horizonPill{border:1px solid var(--border);border-radius:999px;padding:6px 9px;font-size:10px;color:var(--muted);white-space:nowrap}.horizonPill.up{color:var(--good);background:var(--glow)}.finderBar{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:14px 16px;display:flex;justify-content:space-between;align-items:end}.finderBar label{display:grid;gap:7px;font-size:11px;color:var(--muted)}select{min-width:220px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);padding:10px 12px}.finderNow{display:grid;text-align:right;gap:3px}.finderNow span{font-size:10px;color:var(--muted)}.objectHero{border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 75% 30%,var(--glow),transparent 34%),var(--panel);padding:32px;min-height:230px;display:flex;align-items:center;justify-content:space-between;gap:30px}.objectHero h3{margin:0;font-size:48px}.objectStatus{color:var(--muted)}.pointingReadout{display:flex;gap:14px}.pointingReadout>div{min-width:150px;min-height:125px;border:1px solid var(--border);background:var(--panel2);border-radius:16px;padding:16px;display:grid;align-content:center;gap:4px}.pointingReadout span,.pointingReadout small{color:var(--muted);font-size:10px;letter-spacing:.15em}.pointingReadout strong{font-size:34px;font-weight:500}.detailGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.detailCard{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:17px;display:grid;gap:8px;min-height:90px}.detailCard span{color:var(--muted);font-size:11px}.detailCard strong{font-weight:550}.notePanel p:last-child{color:var(--muted);line-height:1.55;margin-bottom:0}.placeholder{min-height:400px;display:grid;place-items:center;align-content:center;text-align:center}.orbit{font-size:64px;color:var(--accent);opacity:.8}.placeholder h3{margin:12px 0 5px;font-size:25px}.placeholder p{max-width:560px;color:var(--muted);line-height:1.55}.settingsCard{min-height:400px}.settingsCard h3{margin:0 0 8px}.settingsCard p{color:var(--muted);line-height:1.5}.fieldGrid{display:grid;grid-template-columns:1.6fr 1fr 1fr .8fr;gap:14px;margin-top:24px}.fieldGrid label{font-size:12px;color:var(--muted);display:grid;gap:8px}.fieldGrid input{width:100%;border:1px solid var(--border);border-radius:10px;padding:11px 12px;background:var(--bg);color:var(--text);outline:none}.fieldGrid input:focus,select:focus{border-color:var(--accent);outline:none}.inlineActions{margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.validationBadge{border:1px solid var(--border);color:var(--muted);padding:6px 9px;border-radius:999px;font-size:10px;white-space:nowrap}.validationBadge.valid{color:var(--good);background:var(--glow)}.settingsDivider{border-top:1px solid var(--border);margin:30px 0}.brightnessOverlay{pointer-events:none;position:fixed;inset:0;z-index:9999;background:#000;transition:opacity .08s linear}.desktopBadge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:10px}.kbd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;border:1px solid var(--border);background:var(--panel2);padding:2px 5px;border-radius:5px;color:var(--text)}.notice{padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);color:var(--muted);font-size:12px;line-height:1.5}.error{color:#ff8b83}.toast{position:fixed;right:22px;bottom:22px;z-index:10000;background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:11px 14px;border-radius:10px;opacity:0;transform:translateY(8px);transition:.2s}.toast.show{opacity:1;transform:none}@media(max-width:1050px){.targetRow{grid-template-columns:1.2fr 1fr 1fr}.horizonPill{display:none}.fieldGrid{grid-template-columns:1fr 1fr}}@media(max-width:800px){.shell{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--border)}nav{flex-direction:row;overflow-x:auto}.nightControls{margin-top:0}.content{padding:24px 18px 50px}.summaryGrid,.detailGrid{grid-template-columns:1fr}.heroTopline,.objectHero{flex-direction:column;align-items:flex-start}.clockBlock{text-align:left}.pointingReadout{width:100%}.pointingReadout>div{flex:1;min-width:0}.targetRow{grid-template-columns:1fr 1fr}.fieldGrid{grid-template-columns:1fr}.finderBar{align-items:stretch;flex-direction:column;gap:12px}.finderNow{text-align:left}}
+
+/* v0.4 equipment + catalog */
+.searchBox{display:grid;gap:8px;flex:1}.searchBox span,.fieldLabel{font-size:11px;color:var(--muted)}.searchInput{width:100%;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);padding:10px 12px;outline:none}.searchInput:focus{border-color:var(--accent)}.finderTools{display:flex;gap:12px;align-items:end;width:100%}.finderTools select{min-width:150px}.resultsList{border:1px solid var(--border);border-radius:14px;background:var(--panel);max-height:260px;overflow:auto}.resultButton{width:100%;display:grid;grid-template-columns:1fr auto;gap:12px;text-align:left;border:0;border-top:1px solid var(--border);background:transparent;color:var(--text);padding:12px 14px}.resultButton:first-child{border-top:0}.resultButton:hover{background:var(--glow)}.resultButton small,.objectMeta,.eqNote{color:var(--muted)}.ratingPill{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:11px;background:var(--panel2)}.ratingPill.good{background:var(--glow);color:var(--good)}.ratingPill.poor{color:var(--muted)}.recommendGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}.recommendCard{border:1px solid var(--border);border-radius:14px;background:var(--panel2);padding:16px;display:grid;gap:7px;cursor:pointer}.recommendCard:hover{background:var(--glow)}.recommendCard strong{font-size:18px}.recommendCard span,.recommendCard small{color:var(--muted);font-size:11px}.equipmentGrid{display:grid;grid-template-columns:1fr 1.15fr;gap:16px}.equipmentCard{border:1px solid var(--border);border-radius:18px;background:var(--panel);padding:22px}.equipmentCard h3{margin:0 0 6px}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.formGrid label{display:grid;gap:7px;color:var(--muted);font-size:11px}.formGrid input,.formGrid select{width:100%;min-width:0;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);padding:9px 10px}.equipmentTable{display:grid;margin-top:16px}.equipmentRow{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr auto;gap:10px;align-items:center;border-top:1px solid var(--border);padding:11px 0}.equipmentRow:first-child{border-top:0}.equipmentRow span{font-size:11px;color:var(--muted)}.equipmentRow strong{font-size:13px}.miniButton{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:7px;padding:6px 8px;font-size:10px}.calcGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}.calcBox{border:1px solid var(--border);border-radius:12px;background:var(--panel2);padding:13px;display:grid;gap:4px}.calcBox span{font-size:10px;color:var(--muted)}.calcBox strong{font-size:18px}.profileSelect{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.profileSelect select{min-width:210px}.catalogStats{display:flex;gap:8px;flex-wrap:wrap}.catalogStats span{border:1px solid var(--border);border-radius:999px;padding:5px 8px;font-size:10px;color:var(--muted)}
+@media(max-width:1000px){.equipmentGrid{grid-template-columns:1fr}.recommendGrid{grid-template-columns:1fr 1fr}.calcGrid{grid-template-columns:1fr 1fr}}@media(max-width:700px){.finderTools{flex-direction:column;align-items:stretch}.recommendGrid,.calcGrid{grid-template-columns:1fr}.equipmentRow{grid-template-columns:1fr 1fr}.equipmentRow .miniButton{grid-column:2}.formGrid{grid-template-columns:1fr}}
+</style></head><body><div id="app" class="app night"></div><script>// Astronomy Companion v0.3.1 offline astronomy core.
+//
+// The orbital-element model and major perturbation terms are adapted from
+// Paul Schlyter's "How to compute planetary positions". The implementation
+// is intentionally self-contained so the observing app can work with no
+// network connection or remote ephemeris service.
+const DEG = Math.PI / 180;
+const RAD = 180 / Math.PI;
+const DAY_MS = 86400000;
+const EARTH_RADIUS_KM = 6378.14;
+const SOLAR_SYSTEM_BODIES = [
+    'Sun',
+    'Moon',
+    'Mercury',
+    'Venus',
+    'Mars',
+    'Jupiter',
+    'Saturn',
+    'Uranus',
+    'Neptune',
+];
+function sinDeg(x) { return Math.sin(x * DEG); }
+function cosDeg(x) { return Math.cos(x * DEG); }
+function asinDeg(x) { return Math.asin(Math.max(-1, Math.min(1, x))) * RAD; }
+function atan2Deg(y, x) { return Math.atan2(y, x) * RAD; }
+function normalizeDegrees(x) {
+    return ((x % 360) + 360) % 360;
+}
+function normalizeSignedDegrees(x) {
+    const n = normalizeDegrees(x);
+    return n > 180 ? n - 360 : n;
+}
+/** Days since 1999-12-31 00:00 UTC (Schlyter day number d). */
+function dayNumber(date) {
+    return (date.getTime() - Date.UTC(1999, 11, 31, 0, 0, 0)) / DAY_MS;
+}
+function obliquity(d) {
+    return 23.4393 - 3.563e-7 * d;
+}
+function sunElements(d) {
+    return {
+        N: 0,
+        i: 0,
+        w: normalizeDegrees(282.9404 + 4.70935e-5 * d),
+        a: 1,
+        e: 0.016709 - 1.151e-9 * d,
+        M: normalizeDegrees(356.0470 + 0.9856002585 * d),
+    };
+}
+function moonElements(d) {
+    return {
+        N: normalizeDegrees(125.1228 - 0.0529538083 * d),
+        i: 5.1454,
+        w: normalizeDegrees(318.0634 + 0.1643573223 * d),
+        a: 60.2666,
+        e: 0.054900,
+        M: normalizeDegrees(115.3654 + 13.0649929509 * d),
+    };
+}
+function planetElements(body, d) {
+    switch (body) {
+        case 'Mercury': return { N: normalizeDegrees(48.3313 + 3.24587e-5 * d), i: 7.0047 + 5e-8 * d, w: normalizeDegrees(29.1241 + 1.01444e-5 * d), a: 0.387098, e: 0.205635 + 5.59e-10 * d, M: normalizeDegrees(168.6562 + 4.0923344368 * d) };
+        case 'Venus': return { N: normalizeDegrees(76.6799 + 2.46590e-5 * d), i: 3.3946 + 2.75e-8 * d, w: normalizeDegrees(54.8910 + 1.38374e-5 * d), a: 0.723330, e: 0.006773 - 1.302e-9 * d, M: normalizeDegrees(48.0052 + 1.6021302244 * d) };
+        case 'Mars': return { N: normalizeDegrees(49.5574 + 2.11081e-5 * d), i: 1.8497 - 1.78e-8 * d, w: normalizeDegrees(286.5016 + 2.92961e-5 * d), a: 1.523688, e: 0.093405 + 2.516e-9 * d, M: normalizeDegrees(18.6021 + 0.5240207766 * d) };
+        case 'Jupiter': return { N: normalizeDegrees(100.4542 + 2.76854e-5 * d), i: 1.3030 - 1.557e-7 * d, w: normalizeDegrees(273.8777 + 1.64505e-5 * d), a: 5.20256, e: 0.048498 + 4.469e-9 * d, M: normalizeDegrees(19.8950 + 0.0830853001 * d) };
+        case 'Saturn': return { N: normalizeDegrees(113.6634 + 2.38980e-5 * d), i: 2.4886 - 1.081e-7 * d, w: normalizeDegrees(339.3939 + 2.97661e-5 * d), a: 9.55475, e: 0.055546 - 9.499e-9 * d, M: normalizeDegrees(316.9670 + 0.0334442282 * d) };
+        case 'Uranus': return { N: normalizeDegrees(74.0005 + 1.3978e-5 * d), i: 0.7733 + 1.9e-8 * d, w: normalizeDegrees(96.6612 + 3.0565e-5 * d), a: 19.18171 - 1.55e-8 * d, e: 0.047318 + 7.45e-9 * d, M: normalizeDegrees(142.5905 + 0.011725806 * d) };
+        case 'Neptune': return { N: normalizeDegrees(131.7806 + 3.0173e-5 * d), i: 1.7700 - 2.55e-7 * d, w: normalizeDegrees(272.8461 - 6.027e-6 * d), a: 30.05826 + 3.313e-8 * d, e: 0.008606 + 2.15e-9 * d, M: normalizeDegrees(260.2471 + 0.005995147 * d) };
+    }
+}
+function eccentricAnomalyDeg(Mdeg, e) {
+    const M = Mdeg * DEG;
+    let E = M + e * Math.sin(M) * (1 + e * Math.cos(M));
+    for (let k = 0; k < 12; k += 1) {
+        const next = E - (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+        if (Math.abs(next - E) < 1e-10)
+            return next * RAD;
+        E = next;
+    }
+    return E * RAD;
+}
+function orbitVector(el) {
+    const E = eccentricAnomalyDeg(el.M, el.e);
+    const xv = el.a * (cosDeg(E) - el.e);
+    const yv = el.a * (Math.sqrt(1 - el.e * el.e) * sinDeg(E));
+    const v = atan2Deg(yv, xv);
+    const r = Math.hypot(xv, yv);
+    const vw = v + el.w;
+    const x = r * (cosDeg(el.N) * cosDeg(vw) - sinDeg(el.N) * sinDeg(vw) * cosDeg(el.i));
+    const y = r * (sinDeg(el.N) * cosDeg(vw) + cosDeg(el.N) * sinDeg(vw) * cosDeg(el.i));
+    const z = r * (sinDeg(vw) * sinDeg(el.i));
+    return {
+        x, y, z, r,
+        lon: normalizeDegrees(atan2Deg(y, x)),
+        lat: atan2Deg(z, Math.hypot(x, y)),
+    };
+}
+function sunEcliptic(d) {
+    const el = sunElements(d);
+    const E = eccentricAnomalyDeg(el.M, el.e);
+    const xv = cosDeg(E) - el.e;
+    const yv = Math.sqrt(1 - el.e * el.e) * sinDeg(E);
+    const v = atan2Deg(yv, xv);
+    const r = Math.hypot(xv, yv);
+    const lon = normalizeDegrees(v + el.w);
+    return { x: r * cosDeg(lon), y: r * sinDeg(lon), z: 0, r, lon, lat: 0 };
+}
+function perturbedPlanetEcliptic(body, d) {
+    const el = planetElements(body, d);
+    const base = orbitVector(el);
+    let lon = base.lon;
+    let lat = base.lat;
+    const Mj = planetElements('Jupiter', d).M;
+    const Ms = planetElements('Saturn', d).M;
+    const Mu = planetElements('Uranus', d).M;
+    if (body === 'Jupiter') {
+        lon += -0.332 * sinDeg(2 * Mj - 5 * Ms - 67.6)
+            - 0.056 * sinDeg(2 * Mj - 2 * Ms + 21)
+            + 0.042 * sinDeg(3 * Mj - 5 * Ms + 21)
+            - 0.036 * sinDeg(Mj - 2 * Ms)
+            + 0.022 * cosDeg(Mj - Ms)
+            + 0.023 * sinDeg(2 * Mj - 3 * Ms + 52)
+            - 0.016 * sinDeg(Mj - 5 * Ms - 69);
+    }
+    else if (body === 'Saturn') {
+        lon += 0.812 * sinDeg(2 * Mj - 5 * Ms - 67.6)
+            - 0.229 * cosDeg(2 * Mj - 4 * Ms - 2)
+            + 0.119 * sinDeg(Mj - 2 * Ms - 3)
+            + 0.046 * sinDeg(2 * Mj - 6 * Ms - 69)
+            + 0.014 * sinDeg(Mj - 3 * Ms + 32);
+        lat += -0.020 * cosDeg(2 * Mj - 4 * Ms - 2)
+            + 0.018 * sinDeg(2 * Mj - 6 * Ms - 49);
+    }
+    else if (body === 'Uranus') {
+        lon += 0.040 * sinDeg(Ms - 2 * Mu + 6)
+            + 0.035 * sinDeg(Ms - 3 * Mu + 33)
+            - 0.015 * sinDeg(Mj - Mu + 20);
+    }
+    lon = normalizeDegrees(lon);
+    const x = base.r * cosDeg(lon) * cosDeg(lat);
+    const y = base.r * sinDeg(lon) * cosDeg(lat);
+    const z = base.r * sinDeg(lat);
+    return { x, y, z, r: base.r, lon, lat };
+}
+function moonEcliptic(d) {
+    const mel = moonElements(d);
+    const base = orbitVector(mel);
+    const sel = sunElements(d);
+    const Ms = sel.M;
+    const Mm = mel.M;
+    const Ls = normalizeDegrees(sel.M + sel.w);
+    const Lm = normalizeDegrees(mel.M + mel.w + mel.N);
+    const D = normalizeSignedDegrees(Lm - Ls);
+    const F = normalizeSignedDegrees(Lm - mel.N);
+    let lon = base.lon
+        - 1.274 * sinDeg(Mm - 2 * D)
+        + 0.658 * sinDeg(2 * D)
+        - 0.186 * sinDeg(Ms)
+        - 0.059 * sinDeg(2 * Mm - 2 * D)
+        - 0.057 * sinDeg(Mm - 2 * D + Ms)
+        + 0.053 * sinDeg(Mm + 2 * D)
+        + 0.046 * sinDeg(2 * D - Ms)
+        + 0.041 * sinDeg(Mm - Ms)
+        - 0.035 * sinDeg(D)
+        - 0.031 * sinDeg(Mm + Ms)
+        - 0.015 * sinDeg(2 * F - 2 * D)
+        + 0.011 * sinDeg(Mm - 4 * D);
+    let lat = base.lat
+        - 0.173 * sinDeg(F - 2 * D)
+        - 0.055 * sinDeg(Mm - F - 2 * D)
+        - 0.046 * sinDeg(Mm + F - 2 * D)
+        + 0.033 * sinDeg(F + 2 * D)
+        + 0.017 * sinDeg(2 * Mm + F);
+    const r = base.r - 0.58 * cosDeg(Mm - 2 * D) - 0.46 * cosDeg(2 * D);
+    lon = normalizeDegrees(lon);
+    const x = r * cosDeg(lon) * cosDeg(lat);
+    const y = r * sinDeg(lon) * cosDeg(lat);
+    const z = r * sinDeg(lat);
+    return { x, y, z, r, lon, lat };
+}
+function eclipticToEquatorial(v, d) {
+    const ecl = obliquity(d);
+    const xe = v.x;
+    const ye = v.y * cosDeg(ecl) - v.z * sinDeg(ecl);
+    const ze = v.y * sinDeg(ecl) + v.z * cosDeg(ecl);
+    const raDeg = normalizeDegrees(atan2Deg(ye, xe));
+    const decDeg = atan2Deg(ze, Math.hypot(xe, ye));
+    return { raHours: raDeg / 15, decDeg, distance: Math.hypot(xe, ye, ze) };
+}
+function geocentricEcliptic(body, d) {
+    if (body === 'Sun')
+        return sunEcliptic(d);
+    if (body === 'Moon')
+        return moonEcliptic(d);
+    const helio = perturbedPlanetEcliptic(body, d);
+    const sun = sunEcliptic(d);
+    const x = helio.x + sun.x;
+    const y = helio.y + sun.y;
+    const z = helio.z;
+    const r = Math.hypot(x, y, z);
+    return {
+        x, y, z, r,
+        lon: normalizeDegrees(atan2Deg(y, x)),
+        lat: atan2Deg(z, Math.hypot(x, y)),
+    };
+}
+/** Greenwich mean sidereal time in degrees. */
+function gmstDegrees(date) {
+    const jd = date.getTime() / DAY_MS + 2440587.5;
+    const T = (jd - 2451545.0) / 36525;
+    return normalizeDegrees(280.46061837
+        + 360.98564736629 * (jd - 2451545.0)
+        + 0.000387933 * T * T
+        - (T * T * T) / 38710000);
+}
+function horizontalCoordinates(raHours, decDeg, observer, date) {
+    const lst = normalizeDegrees(gmstDegrees(date) + observer.longitude);
+    const ha = normalizeSignedDegrees(lst - raHours * 15);
+    const x = cosDeg(ha) * cosDeg(decDeg);
+    const y = sinDeg(ha) * cosDeg(decDeg);
+    const z = sinDeg(decDeg);
+    const xhor = x * sinDeg(observer.latitude) - z * cosDeg(observer.latitude);
+    const yhor = y;
+    const zhor = x * cosDeg(observer.latitude) + z * sinDeg(observer.latitude);
+    return {
+        az: normalizeDegrees(atan2Deg(yhor, xhor) + 180),
+        alt: asinDeg(zhor),
+    };
+}
+function getBodyPosition(body, observer, date = new Date()) {
+    const d = dayNumber(date);
+    const ecl = geocentricEcliptic(body, d);
+    const eq = eclipticToEquatorial(ecl, d);
+    const horizontal = horizontalCoordinates(eq.raHours, eq.decDeg, observer, date);
+    // The Moon's geocentric altitude can differ by more than a degree from the
+    // actual topocentric altitude. Apply the standard parallax correction in altitude.
+    let altitude = horizontal.alt;
+    if (body === 'Moon') {
+        const parallax = asinDeg(1 / ecl.r);
+        altitude -= parallax * cosDeg(horizontal.alt);
+    }
+    return {
+        body,
+        date,
+        raHours: eq.raHours,
+        decDeg: eq.decDeg,
+        azimuthDeg: horizontal.az,
+        altitudeDeg: altitude,
+        distance: ecl.r,
+        distanceUnit: body === 'Moon' ? 'Earth radii' : 'AU',
+        eclipticLongitudeDeg: ecl.lon,
+        eclipticLatitudeDeg: ecl.lat,
+    };
+}
+function getMoonPhase(date = new Date()) {
+    const d = dayNumber(date);
+    const moon = moonEcliptic(d);
+    const sun = sunEcliptic(d);
+    const elongation = normalizeDegrees(moon.lon - sun.lon);
+    const illuminatedFraction = (1 - cosDeg(elongation)) / 2;
+    let name;
+    if (elongation < 22.5 || elongation >= 337.5)
+        name = 'New Moon';
+    else if (elongation < 67.5)
+        name = 'Waxing Crescent';
+    else if (elongation < 112.5)
+        name = 'First Quarter';
+    else if (elongation < 157.5)
+        name = 'Waxing Gibbous';
+    else if (elongation < 202.5)
+        name = 'Full Moon';
+    else if (elongation < 247.5)
+        name = 'Waning Gibbous';
+    else if (elongation < 292.5)
+        name = 'Third Quarter';
+    else
+        name = 'Waning Crescent';
+    return { elongationDeg: elongation, illuminatedFraction, name };
+}
+function moonDistanceKm(position) {
+    return position.body === 'Moon' ? position.distance * EARTH_RADIUS_KM : null;
+}
+function compassDirection(azimuthDeg) {
+    const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    return dirs[Math.round(normalizeDegrees(azimuthDeg) / 22.5) % 16];
+}
+function altitudeLabel(altitudeDeg) {
+    if (altitudeDeg >= 60)
+        return 'Very high';
+    if (altitudeDeg >= 35)
+        return 'High';
+    if (altitudeDeg >= 20)
+        return 'Good';
+    if (altitudeDeg >= 10)
+        return 'Low';
+    if (altitudeDeg >= 0)
+        return 'Very low';
+    return 'Below horizon';
+}
+/**
+ * Finds the next crossing of a requested altitude by scanning and then
+ * binary-refining the crossing. direction=+1 is rising, direction=-1 is setting.
+ */
+function findNextAltitudeCrossing(body, observer, start, targetAltitudeDeg, direction, searchHours = 48) {
+    const stepMs = 5 * 60000;
+    const endMs = start.getTime() + searchHours * 3600000;
+    let t0 = start.getTime();
+    let y0 = getBodyPosition(body, observer, new Date(t0)).altitudeDeg - targetAltitudeDeg;
+    for (let t1 = t0 + stepMs; t1 <= endMs; t1 += stepMs) {
+        const y1 = getBodyPosition(body, observer, new Date(t1)).altitudeDeg - targetAltitudeDeg;
+        const crossed = direction === 1 ? (y0 < 0 && y1 >= 0) : (y0 >= 0 && y1 < 0);
+        if (crossed) {
+            let lo = t0;
+            let hi = t1;
+            for (let i = 0; i < 24; i += 1) {
+                const mid = (lo + hi) / 2;
+                const yMid = getBodyPosition(body, observer, new Date(mid)).altitudeDeg - targetAltitudeDeg;
+                if (direction === 1) {
+                    if (yMid >= 0)
+                        hi = mid;
+                    else
+                        lo = mid;
+                }
+                else {
+                    if (yMid < 0)
+                        hi = mid;
+                    else
+                        lo = mid;
+                }
+            }
+            const time = new Date((lo + hi) / 2);
+            return { time, altitudeDeg: getBodyPosition(body, observer, time).altitudeDeg };
+        }
+        t0 = t1;
+        y0 = y1;
+    }
+    return null;
+}
+function apparentHorizonAltitude(body) {
+    // Approximate standard refraction at the horizon is 34 arcminutes.
+    // For the Sun/Moon, include about 16 arcminutes of apparent radius so
+    // rise/set refers roughly to the first/last visible limb rather than center.
+    return body === 'Sun' || body === 'Moon' ? -0.833 : -(34 / 60);
+}
+function findNextRise(body, observer, start = new Date()) {
+    return findNextAltitudeCrossing(body, observer, start, apparentHorizonAltitude(body), 1, 48);
+}
+function findNextSet(body, observer, start = new Date()) {
+    return findNextAltitudeCrossing(body, observer, start, apparentHorizonAltitude(body), -1, 48);
+}
+function findNextAstronomicalDusk(observer, start = new Date()) {
+    return findNextAltitudeCrossing('Sun', observer, start, -18, -1, 48);
+}
+function findNextAstronomicalDawn(observer, start = new Date()) {
+    return findNextAltitudeCrossing('Sun', observer, start, -18, 1, 48);
+}
+function angularSeparationDeg(a, b) {
+    const ra1 = a.raHours * 15 * DEG;
+    const ra2 = b.raHours * 15 * DEG;
+    const d1 = a.decDeg * DEG;
+    const d2 = b.decDeg * DEG;
+    const cosSep = Math.sin(d1) * Math.sin(d2) + Math.cos(d1) * Math.cos(d2) * Math.cos(ra1 - ra2);
+    return Math.acos(Math.max(-1, Math.min(1, cosSep))) * RAD;
+}
+
+
+const MESSIER_CATALOG=[{"id":"M1","num":1,"ngc":1952,"mag":8.4,"type":"PN","raHours":5.567,"decDeg":22.0,"name":"Crab Nebula","kind":"Supernova remnant"},{"id":"M2","num":2,"ngc":7089,"mag":6.5,"type":"GC","raHours":21.55,"decDeg":-0.817,"name":"M2","kind":"Globular cluster"},{"id":"M3","num":3,"ngc":5272,"mag":6.4,"type":"GC","raHours":13.7,"decDeg":28.367,"name":"M3","kind":"Globular cluster"},{"id":"M4","num":4,"ngc":6121,"mag":5.9,"type":"GC","raHours":16.383,"decDeg":-26.517,"name":"M4","kind":"Globular cluster"},{"id":"M5","num":5,"ngc":5904,"mag":5.8,"type":"GC","raHours":15.3,"decDeg":2.067,"name":"M5","kind":"Globular cluster"},{"id":"M6","num":6,"ngc":6405,"mag":4.2,"type":"OC","raHours":17.667,"decDeg":-32.253,"name":"Butterfly Cluster","kind":"Open cluster"},{"id":"M7","num":7,"ngc":6475,"mag":3.3,"type":"OC","raHours":17.883,"decDeg":-34.793,"name":"Ptolemy's Cluster","kind":"Open cluster"},{"id":"M8","num":8,"ngc":6523,"mag":5.8,"type":"DN","raHours":18.05,"decDeg":-24.387,"name":"Lagoon Nebula","kind":"Diffuse nebula"},{"id":"M9","num":9,"ngc":6333,"mag":7.9,"type":"GC","raHours":17.317,"decDeg":-18.5,"name":"M9","kind":"Globular cluster"},{"id":"M10","num":10,"ngc":6254,"mag":6.6,"type":"GC","raHours":16.95,"decDeg":-4.1,"name":"M10","kind":"Globular cluster"},{"id":"M11","num":11,"ngc":6705,"mag":5.8,"type":"OC","raHours":18.85,"decDeg":-6.27,"name":"Wild Duck Cluster","kind":"Open cluster"},{"id":"M12","num":12,"ngc":6218,"mag":6.6,"type":"GC","raHours":16.783,"decDeg":-1.933,"name":"M12","kind":"Globular cluster"},{"id":"M13","num":13,"ngc":6205,"mag":5.9,"type":"GC","raHours":16.683,"decDeg":36.45,"name":"Hercules Cluster","kind":"Globular cluster"},{"id":"M14","num":14,"ngc":6402,"mag":7.6,"type":"GC","raHours":17.617,"decDeg":-3.233,"name":"M14","kind":"Globular cluster"},{"id":"M15","num":15,"ngc":7078,"mag":6.4,"type":"GC","raHours":21.483,"decDeg":12.167,"name":"M15","kind":"Globular cluster"},{"id":"M16","num":16,"ngc":6611,"mag":6.0,"type":"DN","raHours":18.3,"decDeg":-13.807,"name":"Eagle Nebula","kind":"Diffuse nebula"},{"id":"M17","num":17,"ngc":6618,"mag":7.0,"type":"DN","raHours":18.333,"decDeg":-16.172,"name":"Omega Nebula","kind":"Diffuse nebula"},{"id":"M18","num":18,"ngc":6613,"mag":6.9,"type":"OC","raHours":18.317,"decDeg":-17.102,"name":"M18","kind":"Open cluster"},{"id":"M19","num":19,"ngc":6273,"mag":7.2,"type":"GC","raHours":17.033,"decDeg":-26.267,"name":"M19","kind":"Globular cluster"},{"id":"M20","num":20,"ngc":6514,"mag":8.5,"type":"DN","raHours":18.033,"decDeg":-22.972,"name":"Trifid Nebula","kind":"Diffuse nebula"},{"id":"M21","num":21,"ngc":6531,"mag":5.9,"type":"OC","raHours":18.067,"decDeg":-22.49,"name":"M21","kind":"Open cluster"},{"id":"M22","num":22,"ngc":6656,"mag":5.1,"type":"GC","raHours":18.6,"decDeg":-23.9,"name":"Sagittarius Cluster","kind":"Globular cluster"},{"id":"M23","num":23,"ngc":6494,"mag":5.5,"type":"OC","raHours":17.95,"decDeg":-18.985,"name":"M23","kind":"Open cluster"},{"id":"M24","num":24,"ngc":6603,"mag":4.5,"type":"OC","raHours":18.28,"decDeg":-18.55,"name":"Sagittarius Star Cloud","kind":"Open cluster"},{"id":"M25","num":25,"ngc":null,"mag":4.6,"type":"OC","raHours":18.517,"decDeg":-19.117,"name":"M25","kind":"Open cluster"},{"id":"M26","num":26,"ngc":6694,"mag":8.0,"type":"OC","raHours":18.75,"decDeg":-9.383,"name":"M26","kind":"Open cluster"},{"id":"M27","num":27,"ngc":6853,"mag":8.1,"type":"PN","raHours":19.983,"decDeg":22.717,"name":"Dumbbell Nebula","kind":"Planetary nebula"},{"id":"M28","num":28,"ngc":6626,"mag":6.9,"type":"GC","raHours":18.4,"decDeg":-24.867,"name":"M28","kind":"Globular cluster"},{"id":"M29","num":29,"ngc":6913,"mag":6.6,"type":"OC","raHours":20.383,"decDeg":38.523,"name":"M29","kind":"Open cluster"},{"id":"M30","num":30,"ngc":7099,"mag":7.5,"type":"GC","raHours":21.667,"decDeg":-23.167,"name":"M30","kind":"Globular cluster"},{"id":"M31","num":31,"ngc":224,"mag":3.4,"type":"SG","raHours":0.7,"decDeg":41.267,"name":"Andromeda Galaxy","kind":"Spiral galaxy"},{"id":"M32","num":32,"ngc":221,"mag":8.2,"type":"EG","raHours":0.7,"decDeg":40.85,"name":"Andromeda Companion","kind":"Elliptical galaxy"},{"id":"M33","num":33,"ngc":598,"mag":5.7,"type":"SG","raHours":1.55,"decDeg":30.65,"name":"Triangulum Galaxy","kind":"Spiral galaxy"},{"id":"M34","num":34,"ngc":1039,"mag":5.2,"type":"OC","raHours":2.7,"decDeg":42.762,"name":"M34","kind":"Open cluster"},{"id":"M35","num":35,"ngc":2168,"mag":5.1,"type":"OC","raHours":6.133,"decDeg":24.333,"name":"M35","kind":"Open cluster"},{"id":"M36","num":36,"ngc":1960,"mag":6.0,"type":"OC","raHours":5.6,"decDeg":34.14,"name":"M36","kind":"Open cluster"},{"id":"M37","num":37,"ngc":2099,"mag":5.6,"type":"OC","raHours":5.867,"decDeg":32.553,"name":"M37","kind":"Open cluster"},{"id":"M38","num":38,"ngc":1912,"mag":6.4,"type":"OC","raHours":5.467,"decDeg":35.855,"name":"M38","kind":"Open cluster"},{"id":"M39","num":39,"ngc":7092,"mag":4.6,"type":"OC","raHours":21.517,"decDeg":48.433,"name":"M39","kind":"Open cluster"},{"id":"M40","num":40,"ngc":null,"mag":8.0,"type":"dbl","raHours":12.367,"decDeg":58.067,"name":"Winnecke 4","kind":"Double star"},{"id":"M41","num":41,"ngc":2287,"mag":4.5,"type":"OC","raHours":6.767,"decDeg":-20.757,"name":"M41","kind":"Open cluster"},{"id":"M42","num":42,"ngc":1976,"mag":4.0,"type":"DN","raHours":5.583,"decDeg":-5.383,"name":"Orion Nebula","kind":"Diffuse nebula"},{"id":"M43","num":43,"ngc":1982,"mag":9.0,"type":"DN","raHours":5.583,"decDeg":-5.27,"name":"De Mairan's Nebula","kind":"Diffuse nebula"},{"id":"M44","num":44,"ngc":2632,"mag":3.1,"type":"OC","raHours":8.667,"decDeg":19.667,"name":"Beehive Cluster","kind":"Open cluster"},{"id":"M45","num":45,"ngc":null,"mag":1.2,"type":"OC","raHours":3.783,"decDeg":24.117,"name":"Pleiades","kind":"Open cluster"},{"id":"M46","num":46,"ngc":2437,"mag":6.1,"type":"OC","raHours":7.683,"decDeg":-14.81,"name":"M46","kind":"Open cluster"},{"id":"M47","num":47,"ngc":2422,"mag":4.4,"type":"OC","raHours":7.6,"decDeg":-14.483,"name":"M47","kind":"Open cluster"},{"id":"M48","num":48,"ngc":2548,"mag":5.8,"type":"OC","raHours":8.217,"decDeg":-5.75,"name":"M48","kind":"Open cluster"},{"id":"M49","num":49,"ngc":4472,"mag":8.4,"type":"EG","raHours":12.483,"decDeg":8.0,"name":"M49","kind":"Elliptical galaxy"},{"id":"M50","num":50,"ngc":2323,"mag":5.9,"type":"OC","raHours":7.033,"decDeg":-8.333,"name":"M50","kind":"Open cluster"},{"id":"M51","num":51,"ngc":5194,"mag":8.1,"type":"SG","raHours":13.483,"decDeg":47.183,"name":"Whirlpool Galaxy","kind":"Spiral galaxy"},{"id":"M52","num":52,"ngc":7654,"mag":6.9,"type":"OC","raHours":23.4,"decDeg":61.593,"name":"M52","kind":"Open cluster"},{"id":"M53","num":53,"ngc":5024,"mag":7.7,"type":"GC","raHours":13.2,"decDeg":18.167,"name":"M53","kind":"Globular cluster"},{"id":"M54","num":54,"ngc":6715,"mag":7.7,"type":"GC","raHours":18.917,"decDeg":-30.467,"name":"M54","kind":"Globular cluster"},{"id":"M55","num":55,"ngc":6809,"mag":7.0,"type":"GC","raHours":19.65,"decDeg":-30.95,"name":"M55","kind":"Globular cluster"},{"id":"M56","num":56,"ngc":6779,"mag":8.2,"type":"GC","raHours":19.267,"decDeg":30.183,"name":"M56","kind":"Globular cluster"},{"id":"M57","num":57,"ngc":6720,"mag":9.0,"type":"PN","raHours":18.883,"decDeg":33.017,"name":"Ring Nebula","kind":"Planetary nebula"},{"id":"M58","num":58,"ngc":4579,"mag":9.8,"type":"SG","raHours":12.617,"decDeg":11.817,"name":"M58","kind":"Spiral galaxy"},{"id":"M59","num":59,"ngc":4621,"mag":9.8,"type":"EG","raHours":12.7,"decDeg":11.633,"name":"M59","kind":"Elliptical galaxy"},{"id":"M60","num":60,"ngc":4649,"mag":8.8,"type":"EG","raHours":12.717,"decDeg":11.55,"name":"M60","kind":"Elliptical galaxy"},{"id":"M61","num":61,"ngc":4303,"mag":9.7,"type":"SG","raHours":12.35,"decDeg":4.467,"name":"M61","kind":"Spiral galaxy"},{"id":"M62","num":62,"ngc":6266,"mag":6.6,"type":"GC","raHours":17.017,"decDeg":-30.1,"name":"M62","kind":"Globular cluster"},{"id":"M63","num":63,"ngc":5055,"mag":8.6,"type":"SG","raHours":13.25,"decDeg":42.017,"name":"Sunflower Galaxy","kind":"Spiral galaxy"},{"id":"M64","num":64,"ngc":4826,"mag":8.5,"type":"SG","raHours":12.933,"decDeg":21.667,"name":"Black Eye Galaxy","kind":"Spiral galaxy"},{"id":"M65","num":65,"ngc":3623,"mag":9.3,"type":"SG","raHours":11.3,"decDeg":13.083,"name":"Leo Triplet Galaxy","kind":"Spiral galaxy"},{"id":"M66","num":66,"ngc":3627,"mag":9.0,"type":"SG","raHours":11.333,"decDeg":12.983,"name":"Leo Triplet Galaxy","kind":"Spiral galaxy"},{"id":"M67","num":67,"ngc":2682,"mag":6.9,"type":"OC","raHours":8.85,"decDeg":11.8,"name":"King Cobra Cluster","kind":"Open cluster"},{"id":"M68","num":68,"ngc":4590,"mag":8.2,"type":"GC","raHours":12.65,"decDeg":-26.733,"name":"M68","kind":"Globular cluster"},{"id":"M69","num":69,"ngc":6637,"mag":7.7,"type":"GC","raHours":18.517,"decDeg":-32.333,"name":"M69","kind":"Globular cluster"},{"id":"M70","num":70,"ngc":6681,"mag":8.1,"type":"GC","raHours":18.717,"decDeg":-32.283,"name":"M70","kind":"Globular cluster"},{"id":"M71","num":71,"ngc":6838,"mag":8.3,"type":"GC","raHours":19.883,"decDeg":18.767,"name":"M71","kind":"Globular cluster"},{"id":"M72","num":72,"ngc":6981,"mag":9.4,"type":"GC","raHours":20.883,"decDeg":-12.533,"name":"M72","kind":"Globular cluster"},{"id":"M73","num":73,"ngc":6994,"mag":10.0,"type":"ast","raHours":20.983,"decDeg":-12.633,"name":"M73","kind":"Asterism"},{"id":"M74","num":74,"ngc":628,"mag":9.2,"type":"S","raHours":1.6,"decDeg":15.783,"name":"M74","kind":"Galaxy"},{"id":"M75","num":75,"ngc":6864,"mag":8.6,"type":"GC","raHours":20.1,"decDeg":-21.917,"name":"M75","kind":"Globular cluster"},{"id":"M76","num":76,"ngc":650,"mag":11.5,"type":"PN","raHours":1.7,"decDeg":51.567,"name":"Little Dumbbell Nebula","kind":"Planetary nebula"},{"id":"M77","num":77,"ngc":1068,"mag":8.8,"type":"SG","raHours":2.7,"decDeg":-0.0,"name":"Cetus A","kind":"Spiral galaxy"},{"id":"M78","num":78,"ngc":2068,"mag":8.0,"type":"DN","raHours":5.767,"decDeg":0.067,"name":"Reflection Nebula","kind":"Diffuse nebula"},{"id":"M79","num":79,"ngc":1904,"mag":8.0,"type":"GC","raHours":5.4,"decDeg":-24.517,"name":"M79","kind":"Globular cluster"},{"id":"M80","num":80,"ngc":6093,"mag":7.2,"type":"GC","raHours":16.283,"decDeg":-22.967,"name":"M80","kind":"Globular cluster"},{"id":"M81","num":81,"ngc":3031,"mag":6.8,"type":"SG","raHours":9.917,"decDeg":69.05,"name":"Bode's Galaxy","kind":"Spiral galaxy"},{"id":"M82","num":82,"ngc":3034,"mag":8.4,"type":"IG","raHours":9.917,"decDeg":69.667,"name":"Cigar Galaxy","kind":"Irregular galaxy"},{"id":"M83","num":83,"ngc":5236,"mag":7.6,"type":"SG","raHours":13.617,"decDeg":-29.85,"name":"Southern Pinwheel Galaxy","kind":"Spiral galaxy"},{"id":"M84","num":84,"ngc":4374,"mag":9.3,"type":"EG","raHours":12.417,"decDeg":12.883,"name":"M84","kind":"Elliptical galaxy"},{"id":"M85","num":85,"ngc":4382,"mag":9.2,"type":"EG","raHours":12.417,"decDeg":18.183,"name":"M85","kind":"Elliptical galaxy"},{"id":"M86","num":86,"ngc":4406,"mag":9.2,"type":"EG","raHours":12.433,"decDeg":12.933,"name":"M86","kind":"Elliptical galaxy"},{"id":"M87","num":87,"ngc":4486,"mag":8.6,"type":"EG","raHours":12.5,"decDeg":12.383,"name":"Virgo A","kind":"Elliptical galaxy"},{"id":"M88","num":88,"ngc":4501,"mag":9.5,"type":"SG","raHours":12.517,"decDeg":14.417,"name":"M88","kind":"Spiral galaxy"},{"id":"M89","num":89,"ngc":4552,"mag":9.8,"type":"EG","raHours":12.583,"decDeg":12.55,"name":"M89","kind":"Elliptical galaxy"},{"id":"M90","num":90,"ngc":4569,"mag":9.5,"type":"SG","raHours":12.6,"decDeg":13.15,"name":"M90","kind":"Spiral galaxy"},{"id":"M91","num":91,"ngc":4548,"mag":10.2,"type":"SG","raHours":12.583,"decDeg":14.483,"name":"M91","kind":"Spiral galaxy"},{"id":"M92","num":92,"ngc":6341,"mag":6.5,"type":"GC","raHours":17.283,"decDeg":43.133,"name":"M92","kind":"Globular cluster"},{"id":"M93","num":93,"ngc":2447,"mag":6.2,"type":"OC","raHours":7.733,"decDeg":-23.857,"name":"M93","kind":"Open cluster"},{"id":"M94","num":94,"ngc":4736,"mag":8.1,"type":"SG","raHours":12.833,"decDeg":41.117,"name":"M94","kind":"Spiral galaxy"},{"id":"M95","num":95,"ngc":3351,"mag":9.7,"type":"SG","raHours":10.717,"decDeg":11.7,"name":"M95","kind":"Spiral galaxy"},{"id":"M96","num":96,"ngc":3368,"mag":9.2,"type":"SG","raHours":10.767,"decDeg":11.817,"name":"M96","kind":"Spiral galaxy"},{"id":"M97","num":97,"ngc":3587,"mag":11.2,"type":"PN","raHours":11.233,"decDeg":55.017,"name":"Owl Nebula","kind":"Planetary nebula"},{"id":"M98","num":98,"ngc":4192,"mag":10.1,"type":"SG","raHours":12.217,"decDeg":14.9,"name":"M98","kind":"Spiral galaxy"},{"id":"M99","num":99,"ngc":4254,"mag":9.8,"type":"SG","raHours":12.3,"decDeg":14.4,"name":"M99","kind":"Spiral galaxy"},{"id":"M100","num":100,"ngc":4321,"mag":9.4,"type":"SG","raHours":12.367,"decDeg":15.817,"name":"M100","kind":"Spiral galaxy"},{"id":"M101","num":101,"ngc":5457,"mag":7.7,"type":"SG","raHours":14.05,"decDeg":54.333,"name":"Pinwheel Galaxy","kind":"Spiral galaxy"},{"id":"M102","num":102,"ngc":5866,"mag":10.7,"type":"EG","raHours":15.1082,"decDeg":55.7633,"name":"Spindle Galaxy","kind":"Lenticular galaxy"},{"id":"M103","num":103,"ngc":581,"mag":7.4,"type":"OC","raHours":1.55,"decDeg":60.65,"name":"M103","kind":"Open cluster"},{"id":"M104","num":104,"ngc":4594,"mag":8.3,"type":"SG","raHours":12.65,"decDeg":-11.617,"name":"Sombrero Galaxy","kind":"Spiral galaxy"},{"id":"M105","num":105,"ngc":3379,"mag":9.3,"type":"EG","raHours":10.783,"decDeg":12.567,"name":"M105","kind":"Elliptical galaxy"},{"id":"M106","num":106,"ngc":4258,"mag":8.3,"type":"SG","raHours":12.3,"decDeg":47.3,"name":"M106","kind":"Spiral galaxy"},{"id":"M107","num":107,"ngc":6171,"mag":8.1,"type":"GC","raHours":16.533,"decDeg":-13.05,"name":"M107","kind":"Globular cluster"},{"id":"M108","num":108,"ngc":3556,"mag":10.0,"type":"SG","raHours":11.183,"decDeg":55.667,"name":"M108","kind":"Spiral galaxy"},{"id":"M109","num":109,"ngc":3992,"mag":9.8,"type":"SG","raHours":11.95,"decDeg":53.367,"name":"M109","kind":"Spiral galaxy"},{"id":"M110","num":110,"ngc":205,"mag":8.0,"type":"EG","raHours":0.667,"decDeg":41.683,"name":"Andromeda Companion","kind":"Elliptical galaxy"}];
+const BRIGHT_STARS=[{"name":"Sirius","raHours":6.75248,"decDeg":-16.7161,"mag":-1.46,"constellation":"Canis Major"},{"name":"Canopus","raHours":6.3992,"decDeg":-52.6957,"mag":-0.74,"constellation":"Carina"},{"name":"Arcturus","raHours":14.261,"decDeg":19.1824,"mag":-0.05,"constellation":"Bo\u00f6tes"},{"name":"Vega","raHours":18.6156,"decDeg":38.7837,"mag":0.03,"constellation":"Lyra"},{"name":"Capella","raHours":5.27815,"decDeg":45.998,"mag":0.08,"constellation":"Auriga"},{"name":"Rigel","raHours":5.2423,"decDeg":-8.2016,"mag":0.13,"constellation":"Orion"},{"name":"Procyon","raHours":7.65503,"decDeg":5.225,"mag":0.34,"constellation":"Canis Minor"},{"name":"Betelgeuse","raHours":5.91953,"decDeg":7.4071,"mag":0.42,"constellation":"Orion"},{"name":"Achernar","raHours":1.62857,"decDeg":-57.2368,"mag":0.46,"constellation":"Eridanus"},{"name":"Hadar","raHours":14.0637,"decDeg":-60.373,"mag":0.61,"constellation":"Centaurus"},{"name":"Altair","raHours":19.8464,"decDeg":8.8683,"mag":0.77,"constellation":"Aquila"},{"name":"Acrux","raHours":12.4433,"decDeg":-63.0991,"mag":0.76,"constellation":"Crux"},{"name":"Aldebaran","raHours":4.59868,"decDeg":16.5093,"mag":0.86,"constellation":"Taurus"},{"name":"Antares","raHours":16.4901,"decDeg":-26.432,"mag":0.96,"constellation":"Scorpius"},{"name":"Spica","raHours":13.4199,"decDeg":-11.1614,"mag":0.98,"constellation":"Virgo"},{"name":"Pollux","raHours":7.75526,"decDeg":28.0262,"mag":1.14,"constellation":"Gemini"},{"name":"Fomalhaut","raHours":22.9608,"decDeg":-29.6222,"mag":1.16,"constellation":"Piscis Austrinus"},{"name":"Deneb","raHours":20.6905,"decDeg":45.2803,"mag":1.25,"constellation":"Cygnus"},{"name":"Regulus","raHours":10.1395,"decDeg":11.9672,"mag":1.35,"constellation":"Leo"},{"name":"Castor","raHours":7.57667,"decDeg":31.8883,"mag":1.58,"constellation":"Gemini"},{"name":"Bellatrix","raHours":5.41885,"decDeg":6.3497,"mag":1.64,"constellation":"Orion"},{"name":"Elnath","raHours":5.4382,"decDeg":28.6075,"mag":1.65,"constellation":"Taurus"},{"name":"Alnilam","raHours":5.60356,"decDeg":-1.2019,"mag":1.69,"constellation":"Orion"},{"name":"Alnitak","raHours":5.67931,"decDeg":-1.9426,"mag":1.74,"constellation":"Orion"},{"name":"Alioth","raHours":12.9005,"decDeg":55.9598,"mag":1.76,"constellation":"Ursa Major"},{"name":"Dubhe","raHours":11.0621,"decDeg":61.7508,"mag":1.79,"constellation":"Ursa Major"},{"name":"Mirfak","raHours":3.40538,"decDeg":49.8612,"mag":1.79,"constellation":"Perseus"},{"name":"Wezen","raHours":7.13986,"decDeg":-26.3932,"mag":1.83,"constellation":"Canis Major"},{"name":"Sargas","raHours":17.6219,"decDeg":-42.9978,"mag":1.86,"constellation":"Scorpius"},{"name":"Kaus Australis","raHours":18.4029,"decDeg":-34.3846,"mag":1.79,"constellation":"Sagittarius"},{"name":"Avior","raHours":8.37523,"decDeg":-59.5095,"mag":1.86,"constellation":"Carina"},{"name":"Alkaid","raHours":13.7923,"decDeg":49.3133,"mag":1.86,"constellation":"Ursa Major"},{"name":"Menkalinan","raHours":5.99215,"decDeg":44.9474,"mag":1.9,"constellation":"Auriga"},{"name":"Atria","raHours":16.8111,"decDeg":-69.0277,"mag":1.91,"constellation":"Triangulum Australe"},{"name":"Alhena","raHours":6.62853,"decDeg":16.3993,"mag":1.93,"constellation":"Gemini"},{"name":"Peacock","raHours":20.4275,"decDeg":-56.7351,"mag":1.94,"constellation":"Pavo"},{"name":"Mirzam","raHours":6.37833,"decDeg":-17.9559,"mag":1.98,"constellation":"Canis Major"},{"name":"Polaris","raHours":2.5303,"decDeg":89.2641,"mag":1.98,"constellation":"Ursa Minor"},{"name":"Alphard","raHours":9.45979,"decDeg":-8.6586,"mag":1.98,"constellation":"Hydra"},{"name":"Hamal","raHours":2.11956,"decDeg":23.4624,"mag":2.0,"constellation":"Aries"},{"name":"Diphda","raHours":0.72649,"decDeg":-17.9866,"mag":2.02,"constellation":"Cetus"},{"name":"Mizar","raHours":13.3987,"decDeg":54.9254,"mag":2.23,"constellation":"Ursa Major"},{"name":"Mintaka","raHours":5.53344,"decDeg":-0.2991,"mag":2.23,"constellation":"Orion"},{"name":"Scheat","raHours":23.0629,"decDeg":28.0828,"mag":2.42,"constellation":"Pegasus"},{"name":"Markab","raHours":23.0794,"decDeg":15.2053,"mag":2.49,"constellation":"Pegasus"},{"name":"Alpheratz","raHours":0.13979,"decDeg":29.0904,"mag":2.06,"constellation":"Andromeda"},{"name":"Mirach","raHours":1.16219,"decDeg":35.6206,"mag":2.05,"constellation":"Andromeda"},{"name":"Almach","raHours":2.06498,"decDeg":42.3297,"mag":2.1,"constellation":"Andromeda"},{"name":"Albireo","raHours":19.512,"decDeg":27.9597,"mag":3.05,"constellation":"Cygnus"}];
+
+const PAGES=['Tonight','Find Object','Equipment','Observations','Settings'];
+const TYPE_ICONS={planet:'Planet',star:'Bright star',messier:'Messier object'};
+const DEFAULT_EQUIPMENT={telescopes:[{id:'scope-90',name:'Orion AstroView 90mm EQ #9024',apertureMm:'90',focalLengthMm:'910',type:'Refractor'}],activeTelescopeId:'scope-90',eyepieces:[]};
+const DEFAULT_SETTINGS={theme:'night',brightness:45,locationName:'',latitude:'',longitude:'',elevationM:'0',equipment:DEFAULT_EQUIPMENT};
+let settings=loadSettings();let page='Tonight';let selectedObjectKey='sol:Saturn';let searchQuery='';let searchCategory='all';let tickTimer=null;
+function deepClone(v){return JSON.parse(JSON.stringify(v))}
+function normalizeEquipment(eq){const base=deepClone(DEFAULT_EQUIPMENT);if(!eq||typeof eq!=='object')return base;const scopes=Array.isArray(eq.telescopes)&&eq.telescopes.length?deepClone(eq.telescopes):base.telescopes;const oldOrion=scopes.find(s=>s.id==='scope-90');if(oldOrion){if(!String(oldOrion.focalLengthMm??'').trim())oldOrion.focalLengthMm='910';if(!String(oldOrion.apertureMm??'').trim())oldOrion.apertureMm='90';if(oldOrion.name==='Current Orion 90 mm'||!String(oldOrion.name??'').trim())oldOrion.name='Orion AstroView 90mm EQ #9024';if(!oldOrion.type)oldOrion.type='Refractor'}const eyepieces=Array.isArray(eq.eyepieces)?eq.eyepieces:[];return{telescopes:scopes,activeTelescopeId:eq.activeTelescopeId||scopes[0]?.id||'',eyepieces}}
+function loadSettings(){try{const raw=JSON.parse(localStorage.getItem('astro.settings')||'{}');return{...deepClone(DEFAULT_SETTINGS),...raw,equipment:normalizeEquipment(raw.equipment)}}catch{return deepClone(DEFAULT_SETTINGS)}}
+function saveSettings(){localStorage.setItem('astro.settings',JSON.stringify(settings));applyTheme()}
+function parseObserver(){if(String(settings.latitude).trim()===''||String(settings.longitude).trim()==='')return null;const latitude=Number(settings.latitude),longitude=Number(settings.longitude),elevationM=Number(settings.elevationM||0);if(!Number.isFinite(latitude)||latitude<-90||latitude>90||!Number.isFinite(longitude)||longitude<-180||longitude>180)return null;return{latitude,longitude,elevationM:Number.isFinite(elevationM)?elevationM:0}}
+function activeScope(){return settings.equipment.telescopes.find(s=>s.id===settings.equipment.activeTelescopeId)||settings.equipment.telescopes[0]||null}
+function num(v){const n=Number(v);return Number.isFinite(n)&&n>0?n:null}
+function applyTheme(){const app=document.getElementById('app');if(!app)return;app.className='app '+settings.theme;const overlay=document.getElementById('brightnessOverlay');if(overlay)overlay.style.opacity=String(1-Math.max(5,Math.min(100,settings.brightness))/100);const br=document.getElementById('brightnessRange');if(br)br.value=settings.brightness;const bl=document.getElementById('brightnessLabel');if(bl)bl.textContent=settings.brightness+'%';const tog=document.getElementById('nightToggle');if(tog)tog.textContent=settings.theme==='night'?'ON':'OFF'}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fmtTime(d){return new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit'}).format(d)}
+function fmtDate(d){return new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric'}).format(d)}
+function relativeTime(target,now){const min=Math.round((target-now)/60000);if(min<1)return'now';const h=Math.floor(min/60),m=min%60;return h?`in ${h}h ${m}m`:`in ${m}m`}
+function fmtEvent(target,now){return target.toDateString()===now.toDateString()?`${fmtTime(target)} · ${relativeTime(target,now)}`:`${fmtDate(target)} ${fmtTime(target)}`}
+function fmtRA(hours){const h=Math.floor(hours),mf=(hours-h)*60,m=Math.floor(mf),s=Math.round((mf-m)*60);return`${h}h ${m}m ${s}s`}
+function fmtSigned(deg){const sign=deg>=0?'+':'−',v=Math.abs(deg),d=Math.floor(v),m=Math.round((v-d)*60);return`${sign}${d}° ${m}′`}
+function skyState(a){if(a>=0)return'Daylight right now.';if(a>=-6)return'Civil twilight.';if(a>=-12)return'Nautical twilight.';if(a>=-18)return'Astronomical twilight.';return'The sky is astronomically dark.'}
+function aiming(a,z){if(a<0)return`Wait for it to rise; its bearing is currently ${compassDirection(z)}.`;return`Face ${compassDirection(z)} (${z.toFixed(0)}°) and aim ${a.toFixed(0)}° above the horizon.`}
+function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+function julianDate(date){return date.getTime()/DAY_MS+2440587.5}
+function precessJ2000(raHours,decDeg,date){const T=(julianDate(date)-2451545.0)/36525;const zeta=(2306.2181*T+0.30188*T*T+0.017998*T*T*T)/3600;const z=(2306.2181*T+1.09468*T*T+0.018203*T*T*T)/3600;const theta=(2004.3109*T-0.42665*T*T-0.041833*T*T*T)/3600;const ra=raHours*15;const A=cosDeg(decDeg)*sinDeg(ra+zeta);const B=cosDeg(theta)*cosDeg(decDeg)*cosDeg(ra+zeta)-sinDeg(theta)*sinDeg(decDeg);const C=sinDeg(theta)*cosDeg(decDeg)*cosDeg(ra+zeta)+cosDeg(theta)*sinDeg(decDeg);return{raHours:normalizeDegrees(atan2Deg(A,B)+z)/15,decDeg:asinDeg(C)}}
+function fixedPosition(obj,observer,date=new Date()){const p=precessJ2000(obj.raHours,obj.decDeg,date),h=horizontalCoordinates(p.raHours,p.decDeg,observer,date);return{...obj,date,raHours:p.raHours,decDeg:p.decDeg,altitudeDeg:h.alt,azimuthDeg:h.az}}
+function allCatalogObjects(){const solar=SOLAR_SYSTEM_BODIES.map(name=>({key:'sol:'+name,name,category:'planet',kind:name==='Sun'?'Star':name==='Moon'?'Moon':'Planet'}));const stars=BRIGHT_STARS.map(s=>({key:'star:'+s.name,category:'star',kind:'Bright star',...s}));const messier=MESSIER_CATALOG.map(m=>({key:'messier:'+m.id,category:'messier',...m}));return[...solar,...stars,...messier]}
+const OBJECT_CATALOG=allCatalogObjects();
+function catalogObject(key){return OBJECT_CATALOG.find(o=>o.key===key)||OBJECT_CATALOG.find(o=>o.key==='sol:Saturn')}
+function positionForObject(obj,observer,date=new Date()){if(obj.category==='planet'){const p=getBodyPosition(obj.name,observer,date);return{...obj,...p}}return fixedPosition(obj,observer,date)}
+function altitudeAtObject(obj,observer,date){return positionForObject(obj,observer,date).altitudeDeg}
+function findFixedCrossing(obj,observer,start,targetAltitude,direction,maxHours=48){const stepMs=5*60*1000,end=start.getTime()+maxHours*3600000;let t0=start.getTime(),y0=altitudeAtObject(obj,observer,new Date(t0))-targetAltitude;for(let t1=t0+stepMs;t1<=end;t1+=stepMs){const y1=altitudeAtObject(obj,observer,new Date(t1))-targetAltitude;const crossed=direction===1?(y0<0&&y1>=0):(y0>=0&&y1<0);if(crossed){let lo=t0,hi=t1;for(let i=0;i<22;i++){const mid=(lo+hi)/2,y=altitudeAtObject(obj,observer,new Date(mid))-targetAltitude;if(direction===1){if(y>=0)hi=mid;else lo=mid}else{if(y<0)hi=mid;else lo=mid}}return{time:new Date((lo+hi)/2)}}t0=t1;y0=y1}return null}
+function nextRiseObject(obj,observer,start){return obj.category==='planet'?findNextRise(obj.name,observer,start):findFixedCrossing(obj,observer,start,-34/60,1,48)}
+function nextSetObject(obj,observer,start){return obj.category==='planet'?findNextSet(obj.name,observer,start):findFixedCrossing(obj,observer,start,-34/60,-1,48)}
+function nextTwentyObject(obj,observer,start){const p=positionForObject(obj,observer,start);if(p.altitudeDeg>=20)return null;return obj.category==='planet'?findNextAltitudeCrossing(obj.name,observer,start,20,1,72):findFixedCrossing(obj,observer,start,20,1,72)}
+function objectMagnitude(obj){return Number.isFinite(obj.mag)?obj.mag:null}
+function objectDisplayName(obj){if(obj.category==='messier'&&obj.name!==obj.id)return`${obj.id} · ${obj.name}`;return obj.name}
+function objectSubtitle(obj){if(obj.category==='messier')return`${obj.kind}${obj.ngc?' · NGC '+obj.ngc:''}${obj.mag!=null?' · mag '+obj.mag.toFixed(1):''}`;if(obj.category==='star')return`${obj.constellation} · mag ${obj.mag.toFixed(2)}`;return obj.kind}
+function equipmentCapability(){const s=activeScope(),ap=s?num(s.apertureMm):null;return ap||0}
+function observeRating(obj,p,observer,date){if(p.altitudeDeg<0)return{label:'Below horizon',className:'poor',score:-100,reason:'Wait for it to rise.'};const sun=getBodyPosition('Sun',observer,date),moon=getBodyPosition('Moon',observer,date),phase=getMoonPhase(date);let score=Math.min(55,p.altitudeDeg);let reason=[];if(p.altitudeDeg<10){score-=35;reason.push('very low')}else if(p.altitudeDeg<20){score-=18;reason.push('low')}else if(p.altitudeDeg>=45){score+=12;reason.push('high in sky')}if(obj.category==='messier'){if(sun.altitudeDeg>=-6){score-=60;reason.push('sky too bright')}else if(sun.altitudeDeg>=-12){score-=30;reason.push('twilight')}else if(sun.altitudeDeg>=-18){score-=12;reason.push('not fully dark')}else{score+=18;reason.push('dark sky')}const mag=objectMagnitude(obj);if(mag!=null)score-=Math.max(0,mag-6)*3.5;const sep=angularSeparationDeg(p,moon);if(moon.altitudeDeg>0&&phase.illuminatedFraction>0.35){const penalty=phase.illuminatedFraction*(sep<30?28:sep<60?16:8);score-=penalty;reason.push('moonlight')}const ap=equipmentCapability();if(ap>=200)score+=8;else if(ap>0&&ap<80)score-=6}else if(obj.category==='planet'){if(p.altitudeDeg>=25)score+=12;if(sun.altitudeDeg<0)score+=8}else{if(p.altitudeDeg>=25)score+=10;if(sun.altitudeDeg<0)score+=8}let label=score>=62?'Excellent':score>=42?'Good':score>=22?'Fair':'Poor';return{label,className:label==='Excellent'||label==='Good'?'good':'poor',score,reason:reason.length?reason.join(' · '):'Usable position'}}
+function searchObjects(query,category){const q=query.trim().toLowerCase();return OBJECT_CATALOG.filter(o=>(category==='all'||o.category===category)&&(!q||[o.name,o.id,o.ngc?`ngc ${o.ngc}`:'',o.constellation||'',o.kind||''].join(' ').toLowerCase().includes(q))).slice(0,40)}
+function bestDeepSky(observer,date){return MESSIER_CATALOG.map(m=>{const o=catalogObject('messier:'+m.id),p=positionForObject(o,observer,date),r=observeRating(o,p,observer,date);return{o,p,r}}).filter(x=>x.p.altitudeDeg>5).sort((a,b)=>b.r.score-a.r.score).slice(0,6)}
+function eyepieceMath(scope,ep){const f=num(scope?.focalLengthMm),a=num(scope?.apertureMm),ef=num(ep?.focalLengthMm),af=num(ep?.apparentFovDeg);if(!f||!a||!ef)return null;const mag=f/ef,exit=a/mag,trueFov=af?af/mag:null;return{mag,exit,trueFov,fRatio:f/a}}
+function renderShell(){document.getElementById('app').innerHTML=`<div class="shell"><aside class="sidebar"><div class="brand"><div class="brandMark">✦</div><div><h1>Astronomy Companion</h1><p>Desktop astronomy v0.4.1</p><span class="desktopBadge">● Offline portable build</span></div></div><nav>${PAGES.map(p=>`<button class="navButton ${page===p?'active':''}" data-page="${p}">${p}</button>`).join('')}</nav><div class="nightControls"><div class="controlRow"><span>Night vision</span><button id="nightToggle" class="toggle">${settings.theme==='night'?'ON':'OFF'}</button></div><label>App brightness <strong id="brightnessLabel">${settings.brightness}%</strong><input id="brightnessRange" type="range" min="5" max="100" value="${settings.brightness}"></label><button id="deepNight" class="deepNight">Deep Night</button><div class="mutedText">Shortcut: <span class="kbd">N</span> toggles night mode</div></div></aside><main class="content"><header class="topbar"><div><p class="eyebrow">OFFLINE-FIRST OBSERVING TOOL</p><h2>${page}</h2></div><div class="status"><span class="statusDot"></span>${parseObserver()?esc(settings.locationName||'Location set'):'Location needed'}</div></header><div id="page"></div></main></div><div id="brightnessOverlay" class="brightnessOverlay"></div><div id="toast" class="toast"></div>`;bindShell();applyTheme();renderPage()}
+function bindShell(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{page=b.dataset.page;renderShell()});document.getElementById('nightToggle').onclick=()=>{settings.theme=settings.theme==='night'?'day':'night';saveSettings();renderShell()};document.getElementById('brightnessRange').oninput=e=>{settings.brightness=Number(e.target.value);saveSettings();applyTheme()};document.getElementById('deepNight').onclick=()=>{settings.theme='night';settings.brightness=12;saveSettings();renderShell()}}
+function renderPage(){clearInterval(tickTimer);if(page==='Tonight')renderTonight();else if(page==='Find Object')renderFinder();else if(page==='Equipment')renderEquipment();else if(page==='Settings')renderSettings();else renderObservations();if(page==='Tonight'||page==='Find Object')tickTimer=setInterval(()=>renderPage(),30000)}
+function locationRequired(){document.getElementById('page').innerHTML=`<section class="placeholder"><div class="orbit">◎</div><h3>Set an observing location first</h3><p>Altitude, azimuth, rise/set times, and darkness all depend on where the telescope is on Earth.</p><button class="primaryButton" id="goSettings">Open Settings</button></section>`;document.getElementById('goSettings').onclick=()=>{page='Settings';renderShell()}}
+function summaryCard(label,value,detail){return`<article class="card"><span class="cardLabel">${label}</span><strong>${value}</strong><small>${detail}</small></article>`}
+function detailCard(label,value){return`<article class="detailCard"><span>${label}</span><strong>${value}</strong></article>`}
+function renderTonight(){const observer=parseObserver();if(!observer)return locationRequired();const now=new Date(),moon=getBodyPosition('Moon',observer,now),sun=getBodyPosition('Sun',observer,now),phase=getMoonPhase(now),planets=['Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune'].map(b=>getBodyPosition(b,observer,now)).sort((a,b)=>b.altitudeDeg-a.altitudeDeg),best=bestDeepSky(observer,now);const sunset=findNextSet('Sun',observer,now),dark=sun.altitudeDeg<-18?findNextAstronomicalDawn(observer,now):findNextAstronomicalDusk(observer,now);document.getElementById('page').innerHTML=`<section class="pageStack"><article class="heroCard"><div class="heroTopline"><div><p class="eyebrow">LIVE SKY · ${esc(settings.locationName||`${observer.latitude.toFixed(3)}°, ${observer.longitude.toFixed(3)}°`)}</p><h3>${skyState(sun.altitudeDeg)}</h3></div><div class="clockBlock"><strong>${fmtTime(now)}</strong><span>${fmtDate(now)}</span></div></div><p class="heroBody">Solar-system positions, bright stars, Messier targets, and equipment calculations all run locally on this computer.</p></article><div class="summaryGrid">${summaryCard('Moon',`${Math.round(phase.illuminatedFraction*100)}%`,`${phase.name} · ${moon.altitudeDeg.toFixed(1)}° ${altitudeLabel(moon.altitudeDeg).toLowerCase()}`)}${summaryCard('Sunset',sunset?fmtTime(sunset.time):'—',sunset?relativeTime(sunset.time,now):'No crossing found in 48 h')}${summaryCard(sun.altitudeDeg<-18?'Astronomical dawn':'Astronomical dark',dark?fmtTime(dark.time):'—',sun.altitudeDeg<-18?'Dark sky now':`Sun ${sun.altitudeDeg.toFixed(1)}° altitude`)}</div><section class="panel"><div class="panelHeader"><div><p class="eyebrow">DEEP-SKY PICKS</p><h3>Best Messier targets right now</h3></div><div class="catalogStats"><span>110 Messier entries</span><span>${BRIGHT_STARS.length} bright stars</span></div></div><div class="recommendGrid">${best.map(x=>`<button class="recommendCard" data-object="${x.o.key}"><strong>${esc(x.o.id)}</strong><span>${esc(x.o.name)}</span><small>${x.p.altitudeDeg.toFixed(0)}° · ${compassDirection(x.p.azimuthDeg)} · ${x.r.label}</small></button>`).join('')||'<div class="notice">No Messier objects are in a useful position right now.</div>'}</div></section><section class="panel"><div class="panelHeader"><div><p class="eyebrow">SOLAR SYSTEM</p><h3>What is up right now</h3></div><span class="mutedText">Geometric altitude</span></div><div class="targetTable">${planets.map(p=>`<div class="targetRow"><div class="targetName"><strong>${p.body}</strong><span>${altitudeLabel(p.altitudeDeg)}</span></div><div class="targetMetric"><span>Altitude</span><strong>${p.altitudeDeg.toFixed(1)}°</strong></div><div class="targetMetric"><span>Direction</span><strong>${compassDirection(p.azimuthDeg)} ${p.azimuthDeg.toFixed(0)}°</strong></div><div class="horizonPill ${p.altitudeDeg>=0?'up':'down'}">${p.altitudeDeg>=0?'Above horizon':'Below horizon'}</div></div>`).join('')}</div></section></section>`;document.querySelectorAll('[data-object]').forEach(b=>b.onclick=()=>{selectedObjectKey=b.dataset.object;searchQuery=catalogObject(selectedObjectKey).id||catalogObject(selectedObjectKey).name;page='Find Object';renderShell()})}
+function renderFinder(){const observer=parseObserver();if(!observer)return locationRequired();const now=new Date(),obj=catalogObject(selectedObjectKey),p=positionForObject(obj,observer,now),rise=nextRiseObject(obj,observer,now),set=nextSetObject(obj,observer,now),twenty=nextTwentyObject(obj,observer,now),rating=observeRating(obj,p,observer,now),results=searchObjects(searchQuery,searchCategory),moonKm=obj.category==='planet'&&obj.name==='Moon'?moonDistanceKm(p):null;const distance=obj.category==='planet'?(moonKm?`${Math.round(moonKm).toLocaleString()} km`:(p.distance?`${p.distance.toFixed(p.distance<1?3:2)} AU`:'—')):(obj.mag!=null?`Magnitude ${obj.mag.toFixed(obj.category==='star'?2:1)}`:'Fixed sky object');document.getElementById('page').innerHTML=`<section class="pageStack"><div class="finderBar"><div class="finderTools"><label class="searchBox"><span>Search planets, stars, M / NGC</span><input id="objectSearch" class="searchInput" value="${esc(searchQuery)}" placeholder="Try M31, Vega, Saturn, NGC 224"></label><label><span class="fieldLabel">Catalog</span><select id="searchCategory"><option value="all">All objects</option><option value="planet">Solar system</option><option value="star">Bright stars</option><option value="messier">Messier</option></select></label></div><div class="finderNow"><span>Calculated for</span><strong>${fmtTime(now)}</strong></div></div>${searchQuery?`<div class="resultsList">${results.map(o=>`<button class="resultButton" data-result="${o.key}"><span><strong>${esc(objectDisplayName(o))}</strong><br><small>${esc(objectSubtitle(o))}</small></span><small>${esc(TYPE_ICONS[o.category]||'Object')}</small></button>`).join('')||'<div class="notice">No catalog matches.</div>'}</div>`:''}<article class="objectHero"><div><p class="eyebrow">CURRENT POINTING · ${esc(TYPE_ICONS[obj.category]||'OBJECT')}</p><h3>${esc(obj.category==='messier'?obj.id:obj.name)}</h3><p class="objectMeta">${esc(obj.category==='messier'?obj.name:objectSubtitle(obj))}</p><p class="objectStatus">${p.altitudeDeg>=0?`${altitudeLabel(p.altitudeDeg)} in the ${compassDirection(p.azimuthDeg)}`:'Currently below your horizon'}</p><span class="ratingPill ${rating.className}">${rating.label} now · ${esc(rating.reason)}</span></div><div class="pointingReadout"><div><span>ALT</span><strong>${p.altitudeDeg.toFixed(1)}°</strong></div><div><span>AZ</span><strong>${p.azimuthDeg.toFixed(1)}°</strong><small>${compassDirection(p.azimuthDeg)}</small></div></div></article><div class="detailGrid">${detailCard('Right ascension',fmtRA(p.raHours))}${detailCard('Declination',fmtSigned(p.decDeg))}${detailCard(obj.category==='messier'?'Catalog / brightness':'Distance / brightness',distance)}${detailCard('20° altitude',p.altitudeDeg>=20?'Above it now':(twenty?fmtEvent(twenty.time,now):'Not in 72 h'))}${detailCard('Next rise',rise?fmtEvent(rise.time,now):'Not in 48 h')}${detailCard('Next set',set?fmtEvent(set.time,now):'Not in 48 h')}</div><section class="panel notePanel"><p class="eyebrow">HOW TO AIM</p><h3>${aiming(p.altitudeDeg,p.azimuthDeg)}</h3><p>For stars and Messier objects, catalog J2000 coordinates are precessed to the current date before altitude and azimuth are calculated. The Observe Now rating is intentionally a quick planning estimate, not a guarantee of visibility.</p></section></section>`;const cat=document.getElementById('searchCategory');cat.value=searchCategory;cat.onchange=e=>{searchCategory=e.target.value;renderFinder()};document.getElementById('objectSearch').oninput=e=>{searchQuery=e.target.value;renderFinder();const i=document.getElementById('objectSearch');if(i){i.focus();i.setSelectionRange(searchQuery.length,searchQuery.length)}};document.querySelectorAll('[data-result]').forEach(b=>b.onclick=()=>{selectedObjectKey=b.dataset.result;searchQuery='';renderFinder()})}
+function renderEquipment(){const eq=settings.equipment,scope=activeScope();document.getElementById('page').innerHTML=`<section class="pageStack"><div class="equipmentGrid"><section class="equipmentCard"><p class="eyebrow">TELESCOPES</p><h3>Optical profiles</h3><p class="mutedText">Your Orion AstroView 90mm EQ #9024 is preloaded at 90 mm aperture and 910 mm focal length (about f/10.1). You can still edit the profile if needed.</p><div class="profileSelect"><select id="activeScope">${eq.telescopes.map(s=>`<option value="${esc(s.id)}" ${s.id===eq.activeTelescopeId?'selected':''}>${esc(s.name)}</option>`).join('')}</select><button class="miniButton" id="addScope">+ Telescope</button></div>${scope?`<div class="formGrid"><label>Name<input id="scopeName" value="${esc(scope.name)}"></label><label>Type<select id="scopeType"><option>Refractor</option><option>Reflector</option><option>Dobsonian</option><option>SCT / Mak</option><option>Other</option></select></label><label>Aperture (mm)<input id="scopeAperture" inputmode="decimal" value="${esc(scope.apertureMm)}"></label><label>Focal length (mm)<input id="scopeFocal" inputmode="decimal" value="${esc(scope.focalLengthMm)}" placeholder="Read from telescope label"></label></div><div class="inlineActions"><button class="secondaryButton" id="saveScope">Save telescope</button>${eq.telescopes.length>1?'<button class="secondaryButton" id="deleteScope">Delete</button>':''}</div>${scopeMathSummary(scope)}`:''}</section><section class="equipmentCard"><p class="eyebrow">EYEPIECES</p><h3>Eyepiece case</h3><p class="mutedText">Add the focal length and apparent field of view (AFOV). True field is an approximation: AFOV ÷ magnification.</p><div class="formGrid"><label>Name<input id="epName" placeholder="13 mm Plössl"></label><label>Focal length (mm)<input id="epFocal" inputmode="decimal" placeholder="13"></label><label>AFOV (degrees)<input id="epAfov" inputmode="decimal" placeholder="50"></label><label>&nbsp;<button class="secondaryButton" id="addEyepiece">Add eyepiece</button></label></div><div class="equipmentTable">${eq.eyepieces.length?eq.eyepieces.map(ep=>eyepieceRow(scope,ep)).join(''):'<div class="notice">No eyepieces saved yet.</div>'}</div></section></div></section>`;if(scope){const st=document.getElementById('scopeType');st.value=scope.type||'Other';document.getElementById('activeScope').onchange=e=>{eq.activeTelescopeId=e.target.value;saveSettings();renderEquipment()};document.getElementById('saveScope').onclick=()=>{scope.name=document.getElementById('scopeName').value||'Telescope';scope.type=st.value;scope.apertureMm=document.getElementById('scopeAperture').value;scope.focalLengthMm=document.getElementById('scopeFocal').value;saveSettings();toast('Telescope saved');renderEquipment()};document.getElementById('deleteScope')?.addEventListener('click',()=>{eq.telescopes=eq.telescopes.filter(s=>s.id!==scope.id);eq.activeTelescopeId=eq.telescopes[0]?.id||'';saveSettings();renderEquipment()})}document.getElementById('addScope').onclick=()=>{const id='scope-'+Date.now();eq.telescopes.push({id,name:'New telescope',apertureMm:'',focalLengthMm:'',type:'Reflector'});eq.activeTelescopeId=id;saveSettings();renderEquipment()};document.getElementById('addEyepiece').onclick=()=>{const name=document.getElementById('epName').value.trim(),f=document.getElementById('epFocal').value,af=document.getElementById('epAfov').value;if(!num(f)){toast('Enter an eyepiece focal length');return}eq.eyepieces.push({id:'ep-'+Date.now(),name:name||`${f} mm eyepiece`,focalLengthMm:f,apparentFovDeg:af});saveSettings();renderEquipment()};document.querySelectorAll('[data-delete-ep]').forEach(b=>b.onclick=()=>{eq.eyepieces=eq.eyepieces.filter(ep=>ep.id!==b.dataset.deleteEp);saveSettings();renderEquipment()})}
+function scopeMathSummary(scope){const a=num(scope.apertureMm),f=num(scope.focalLengthMm);if(!a||!f)return`<div class="notice" style="margin-top:16px">Add the telescope focal length to unlock focal ratio, magnification, exit pupil, and field-of-view calculations.</div>`;return`<div class="calcGrid"><div class="calcBox"><span>Focal ratio</span><strong>f/${(f/a).toFixed(1)}</strong></div><div class="calcBox"><span>Aperture</span><strong>${a.toFixed(0)} mm</strong></div><div class="calcBox"><span>Focal length</span><strong>${f.toFixed(0)} mm</strong></div><div class="calcBox"><span>Rule-of-thumb max</span><strong>~${Math.round(a*2)}×</strong></div></div><p class="eqNote">The ~2× aperture-in-mm maximum is only a rough upper limit; seeing and optical quality often set a lower useful magnification.</p>`}
+function eyepieceRow(scope,ep){const m=eyepieceMath(scope,ep);return`<div class="equipmentRow"><div><strong>${esc(ep.name)}</strong><br><span>${esc(ep.focalLengthMm)} mm · ${esc(ep.apparentFovDeg||'—')}° AFOV</span></div><div><span>Magnification</span><br><strong>${m?m.mag.toFixed(0)+'×':'—'}</strong></div><div><span>Exit pupil</span><br><strong>${m?m.exit.toFixed(2)+' mm':'—'}</strong></div><div><span>True field</span><br><strong>${m&&m.trueFov?m.trueFov.toFixed(2)+'°':'—'}</strong></div><button class="miniButton" data-delete-ep="${esc(ep.id)}">Remove</button></div>`}
+function renderObservations(){document.getElementById('page').innerHTML=`<section class="placeholder"><div class="orbit">◎</div><h3>Observation log</h3><p>Still intentionally parked for the next pass. v0.4.1 keeps the target catalog and equipment math solid while adding your exact telescope profile.</p></section>`}
+function renderSettings(){const o=parseObserver();document.getElementById('page').innerHTML=`<section class="settingsCard"><div class="settingsHeading"><div><h3>Observing location</h3><p>Saved locally on this computer. Longitude is negative west of Greenwich.</p></div><span class="validationBadge ${o?'valid':''}">${o?'Valid location':'Location incomplete'}</span></div><div class="fieldGrid"><label>Location name<input id="locName" value="${esc(settings.locationName)}" placeholder="Home or Farm"></label><label>Latitude<input id="lat" inputmode="decimal" value="${esc(settings.latitude)}" placeholder="36.0000"></label><label>Longitude<input id="lon" inputmode="decimal" value="${esc(settings.longitude)}" placeholder="-86.0000"></label><label>Elevation (m)<input id="elev" inputmode="decimal" value="${esc(settings.elevationM)}" placeholder="0"></label></div><div class="inlineActions"><button class="secondaryButton" id="saveLocation">Save location</button><button class="secondaryButton" id="geoButton">Use device location</button><button class="secondaryButton" id="fullscreenButton">Fullscreen</button><span id="geoMsg" class="mutedText"></span></div><div class="settingsDivider"></div><h3>Offline catalog</h3><p>v0.4.1 contains the solar-system engine, ${BRIGHT_STARS.length} bright stars, and 110 Messier entries inside the app file itself.</p><div class="notice">Press <span class="kbd">N</span> anywhere in the app to switch night vision on or off. Theme, brightness, location, telescope profiles, and eyepieces are stored locally.</div><div class="settingsDivider"></div><h3>Data</h3><div class="inlineActions"><button class="secondaryButton" id="exportSettings">Export settings</button><button class="secondaryButton" id="resetSettings">Reset app settings</button></div></section>`;document.getElementById('saveLocation').onclick=()=>{settings.locationName=document.getElementById('locName').value;settings.latitude=document.getElementById('lat').value;settings.longitude=document.getElementById('lon').value;settings.elevationM=document.getElementById('elev').value;saveSettings();toast('Location saved');renderShell()};document.getElementById('geoButton').onclick=()=>{const msg=document.getElementById('geoMsg');if(!navigator.geolocation){msg.textContent='Geolocation is not available in this launch mode.';return}msg.textContent='Requesting location…';navigator.geolocation.getCurrentPosition(pos=>{settings.latitude=pos.coords.latitude.toFixed(6);settings.longitude=pos.coords.longitude.toFixed(6);if(pos.coords.altitude!=null)settings.elevationM=String(Math.round(pos.coords.altitude));saveSettings();msg.textContent='Location captured.';renderShell()},err=>msg.textContent='Could not get location: '+err.message,{enableHighAccuracy:true,timeout:12000,maximumAge:60000})};document.getElementById('fullscreenButton').onclick=()=>document.documentElement.requestFullscreen?.();document.getElementById('exportSettings').onclick=()=>{const blob=new Blob([JSON.stringify(settings,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astronomy-companion-v0.4.1-settings.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};document.getElementById('resetSettings').onclick=()=>{if(confirm('Reset Astronomy Companion settings on this computer?')){settings=deepClone(DEFAULT_SETTINGS);saveSettings();renderShell()}}}
+window.addEventListener('keydown',e=>{if((e.key==='n'||e.key==='N')&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){settings.theme=settings.theme==='night'?'day':'night';saveSettings();renderShell()}});
+window.addEventListener('error',e=>{console.error(e.error||e.message);const p=document.getElementById('page');if(p)p.insertAdjacentHTML('afterbegin',`<div class="notice error">Something went wrong while calculating the sky. Reload the app or check the saved values.</div>`)});
+renderShell();
+</script></body></html>

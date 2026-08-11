@@ -27,7 +27,9 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis"],
+    "targets": [
+      "nsis"
+    ],
     "shortDescription": "Offline astronomy and telescope companion",
     "longDescription": "Noctem Locus is an offline observing, sky-map, telescope-navigation, equipment, and observation-log application."
   }
