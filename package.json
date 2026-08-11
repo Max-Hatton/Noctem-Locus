@@ -1,7 +1,7 @@
 {
   "name": "noctem-locus",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Noctem Locus - offline astronomy and telescope companion",
   "scripts": {
     "tauri": "tauri",
