@@ -1,0 +1,62 @@
+name: Build Windows Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Verify imported source exists
+        id: source
+        shell: pwsh
+        run: |
+          if (Test-Path "frontend/index.html") {
+            "ready=true" >> $env:GITHUB_OUTPUT
+          } else {
+            "ready=false" >> $env:GITHUB_OUTPUT
+            Write-Host "Full project source has not been imported yet; skipping build."
+          }
+
+      - name: Set up Node.js
+        if: steps.source.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Rust stable
+        if: steps.source.outputs.ready == 'true'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install build dependencies
+        if: steps.source.outputs.ready == 'true'
+        run: npm install
+
+      - name: Build and publish release
+        if: steps.source.outputs.ready == 'true'
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: Noctem Locus v__VERSION__
+          releaseBody: |
+            Automated Windows beta build of Noctem Locus.
+
+            Download the Windows setup executable from the assets below.
+
+            Current beta installers are unsigned and Windows may show an unknown-publisher warning.
+          releaseDraft: false
+          prerelease: true
