@@ -1,0 +1,40 @@
+name: Import Noctem Locus Project Bundle
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Noctem-Locus-GitHub-Import.zip
+
+permissions:
+  contents: write
+
+jobs:
+  import-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Expand project bundle
+        run: |
+          rm -rf .noctem-import
+          mkdir .noctem-import
+          unzip -q -o Noctem-Locus-GitHub-Import.zip -d .noctem-import
+          rsync -a .noctem-import/ ./
+          rm -rf .noctem-import
+          rm -f Noctem-Locus-GitHub-Import.zip
+
+      - name: Commit imported project
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to import."
+            exit 0
+          fi
+          git commit -m "Import full Noctem Locus project history"
+          git push
