@@ -1,0 +1,14 @@
+{
+  "name": "noctem-locus",
+  "private": true,
+  "version": "0.9.0",
+  "description": "Noctem Locus - offline astronomy and telescope companion",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  }
+}
