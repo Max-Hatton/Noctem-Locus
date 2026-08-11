@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.9.1 — Native data foundation
+- Moved the working copy of settings, telescope/eyepiece profiles, alignment data, and observation metadata into a native `state.json` file under the Noctem Locus application-data directory.
+- Moved new observation photo storage from IndexedDB to real managed files in the native application-data directory.
+- Added automatic migration of v0.9.0 WebView settings and referenced observation photos on first launch.
+- Kept browser/WebView storage as a compatibility fallback during the migration period.
+- Added **Full Backup** and **Restore Backup** using a single `.nlbackup` archive containing application state and observation photos.
+- Added native storage status, data-folder information, and version information to Settings.
+- Added a Windows validation workflow for development branches and pull requests.
+- Removed the one-time GitHub import workflow so future release tags are created from the exact source being released.
+
 ## v0.9.0 — Noctem Locus
 - Renamed Astronomy Companion to **Noctem Locus**.
 - Migrated the v0.8.1 frontend into a Tauri 2 native desktop shell.
