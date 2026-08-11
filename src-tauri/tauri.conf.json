@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Noctem Locus",
+  "version": "0.9.0",
+  "identifier": "com.noctemlocus.app",
+  "build": {
+    "frontendDist": "../frontend"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Noctem Locus",
+        "width": 1280,
+        "height": 850,
+        "minWidth": 900,
+        "minHeight": 650,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "backgroundColor": "#030000"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "shortDescription": "Offline astronomy and telescope companion",
+    "longDescription": "Noctem Locus is an offline observing, sky-map, telescope-navigation, equipment, and observation-log application."
+  }
+}
