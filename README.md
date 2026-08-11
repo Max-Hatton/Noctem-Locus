@@ -6,7 +6,7 @@ Noctem Locus is an offline-first observing application built for use beside a te
 
 ## Current version
 
-**v0.9.0** — first native Tauri desktop build.
+**v0.9.1** — native data, migration, and full backup foundation.
 
 The current application includes:
 
@@ -21,6 +21,9 @@ The current application includes:
 - Two-star telescope/sensor alignment
 - Telescope reticle and future IMU/encoder input API
 - Observation log with telescope, eyepiece, conditions, notes, ratings, and photo attachments
+- Native Windows app-data storage for settings, observations, and attached photos
+- Automatic migration from the v0.9.0 WebView storage format
+- Full `.nlbackup` backup/restore including observation photos
 - Red night-vision mode and software brightness reduction
 - Offline operation after installation
 
@@ -30,18 +33,33 @@ Windows installers are built automatically by GitHub Actions. Open the repositor
 
 > **Beta note:** v0.9.x builds are currently unsigned development releases. Windows may show an unknown-publisher warning. Do not disable Windows security features just to install the app.
 
-A portable HTML fallback for v0.9.0 is also stored in [`portable/`](portable/).
+The portable HTML fallback from the initial desktop migration is stored in [`portable/`](portable/). Native storage and full backup features require the installed Tauri desktop app.
+
+## Data and backups
+
+Beginning with v0.9.1, the installed desktop application keeps its primary working data in the platform application-data directory associated with `com.noctemlocus.app`.
+
+The **Settings → Native data & backup** panel shows the exact data directory in use and can create a single `.nlbackup` file containing:
+
+- settings and observing location
+- telescope and eyepiece profiles
+- Push-To/alignment state
+- observation log
+- attached observation photos
+
+On first v0.9.1 launch, Noctem Locus imports the existing v0.9.0 WebView settings and any referenced observation photos it can find. WebView storage remains as a temporary compatibility fallback during the v0.9.x migration period.
 
 ## Development
 
-Noctem Locus v0.9 uses **Tauri 2** with a self-contained HTML/JavaScript astronomy frontend.
+Noctem Locus v0.9 uses **Tauri 2** with a self-contained HTML/JavaScript astronomy frontend and a Rust native layer.
 
 ```text
-frontend/index.html       Main UI + astronomy engine
-src-tauri/                Native Tauri/Rust shell
-portable/                 Browser fallback build
-archive/                  Historical Astronomy Companion builds
-.github/workflows/        Automated Windows installer build
+frontend/index.html          Main UI + astronomy engine
+frontend/native-bridge.js    Native storage/migration UI bridge
+src-tauri/                   Native Tauri/Rust backend
+portable/                    Browser fallback build
+archive/                     Historical Astronomy Companion builds
+.github/workflows/           Validation + Windows release automation
 ```
 
 ### Local development
@@ -59,6 +77,8 @@ Build a Windows installer with:
 npm run build
 ```
 
+Development branches and pull requests are also compiled on `windows-latest` by GitHub Actions before release.
+
 ## Hardware direction
 
 The project is being designed to support a telescope-mounted IMU / encoder system. The current JavaScript hardware hooks are:
@@ -72,7 +92,7 @@ The legacy `window.astronomyCompanion` alias remains available for compatibility
 
 ## Version history
 
-Historical builds from v0.1 through v0.9.0 are preserved under [`archive/`](archive/). See [`CHANGELOG.md`](CHANGELOG.md) for the development timeline.
+Historical builds from v0.1 through the desktop migration are preserved under [`archive/`](archive/). See [`CHANGELOG.md`](CHANGELOG.md) for the development timeline.
 
 ## License
 
