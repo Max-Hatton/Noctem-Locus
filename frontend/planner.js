@@ -24,6 +24,13 @@
     return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   }
 
+  function localDateKey(date = new Date()) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
   function horizonArray(value) {
     const src = Array.isArray(value) ? value : [];
     return DIRECTIONS.map((_, i) => {
@@ -65,7 +72,7 @@
     }
     const p = settings.planner && typeof settings.planner === 'object' ? settings.planner : {};
     settings.planner = {
-      date: p.date || new Date().toISOString().slice(0,10),
+      date: p.date || localDateKey(),
       hoursAhead: Math.max(2, Math.min(12, Number(p.hoursAhead || 8))),
       targetCount: Math.max(1, Math.min(15, Number(p.targetCount || 8))),
       categories: {
@@ -132,7 +139,7 @@
   }
 
   function localDateTime(dateString) {
-    const today = new Date().toISOString().slice(0,10);
+    const today = localDateKey();
     if (dateString === today) return new Date();
     const d = new Date(`${dateString}T18:00:00`);
     return Number.isNaN(d.getTime()) ? new Date() : d;
