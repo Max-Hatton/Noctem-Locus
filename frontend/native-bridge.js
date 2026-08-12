@@ -5,7 +5,7 @@
   const invoke = window.__TAURI__?.core?.invoke;
   if (!invoke) return;
 
-  const VERSION = '0.12.0';
+  const VERSION = '0.13.0';
   const legacySaveSettings = typeof saveSettings === 'function' ? saveSettings : null;
   const legacyPhotoPut = typeof photoDbPut === 'function' ? photoDbPut : null;
   const legacyPhotoGet = typeof photoDbGet === 'function' ? photoDbGet : null;
@@ -400,7 +400,8 @@
       ['catalog-ui-v011.js','v0.11-catalog-ui'],
       ['sky-render-v011.js','v0.11-sky'],
       ['sky-ui-v011.js','v0.11-sky-ui'],
-      ['weather-v012.js','v0.12-weather-alerts']
+      ['weather-v012.js','v0.12-weather-alerts'],
+      ['insights-v013.js','v0.13-observing-insights']
     ]) await loadFeatureScript(file, tag);
     if (typeof renderShell === 'function') renderShell();
   }

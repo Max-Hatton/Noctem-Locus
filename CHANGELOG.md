@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.13.0 — Observing insights, target visibility, and weather clarity
+- Made precipitation impossible to miss: current rain/showers/snow/thunderstorm conditions now appear prominently with weather icons, hourly precipitation probability, and precipitation amount.
+- Added precipitation-aware observing-score caps so active rain/snow cannot score above 10/100 and thunderstorms cannot score above 5/100; very high precipitation probability is also strongly capped.
+- Excluded active precipitation from Best Observing Window detection and strengthened precipitation penalties in Planner and target-ready alert logic.
+- Added upcoming precipitation timing so Weather can show when rain/snow is expected to begin within the next several hours.
+- Added a new **Night Timeline** that combines twilight/darkness, Moon altitude, weather quality, precipitation, and observing conditions across the night.
+- Added **What should I look at right now?** recommendations using the active telescope, object altitude, darkness, Moon interference, local horizon, and cached weather.
+- Added saved-equipment eyepiece suggestions to the quick target recommendations.
+- Added 12-hour **Target Visibility** graphs in Object Finder showing target altitude versus time and the active observing site's local horizon.
+- Added target insight details including highest altitude/time, Moon separation, current horizon obstruction, forecast condition, and precipitation context.
+- Added object **Favorites** and **Recently viewed** target shortcuts for faster return navigation.
+- Kept v0.13 functionality in a separate `frontend/insights-v013.js` feature layer to reduce risk to the existing astronomy engine.
+- Expanded weather smoke tests to cover active rain, thunderstorms, and false-positive precipitation handling.
+
 ## v0.12.0 — Astronomy weather and smart observing alerts
 - Added an online-enhanced **Weather** page powered by the active observing site's saved coordinates.
 - Added an eight-day Open-Meteo forecast cache stored with Noctem Locus application state; the latest cached forecast remains visible when the computer is offline and displays its age.
