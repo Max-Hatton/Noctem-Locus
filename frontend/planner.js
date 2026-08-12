@@ -2,7 +2,7 @@
   if (window.__NOCTEM_LOCUS_V010__) return;
   window.__NOCTEM_LOCUS_V010__ = true;
 
-  const VERSION = '0.10.0';
+  const VERSION = '0.11.0';
   const DIRECTIONS = [
     ['N',0],['NE',45],['E',90],['SE',135],
     ['S',180],['SW',225],['W',270],['NW',315]
@@ -78,7 +78,8 @@
       categories: {
         planet: p.categories?.planet !== false,
         messier: p.categories?.messier !== false,
-        star: p.categories?.star !== false
+        star: p.categories?.star !== false,
+        dso: p.categories?.dso !== false
       },
       queue: Array.isArray(p.queue) ? p.queue.filter(Boolean) : [],
       session: p.session && typeof p.session === 'object' ? p.session : null,
@@ -127,6 +128,7 @@
   }
 
   function categoryLabel(obj) {
+    if (obj.category === 'dso') return obj.kind || 'Deep sky';
     if (obj.category === 'messier') return obj.kind || 'Deep sky';
     if (obj.category === 'star') return 'Bright star';
     return obj.kind || 'Solar system';
@@ -147,13 +149,15 @@
 
   function candidateObjects() {
     const enabled = settings.planner.categories;
-    return OBJECT_CATALOG.filter(obj => {
+    const base = OBJECT_CATALOG.filter(obj => {
       if (obj.key === 'sol:Sun') return false;
       if (obj.category === 'planet') return enabled.planet;
       if (obj.category === 'messier') return enabled.messier;
       if (obj.category === 'star') return enabled.star;
       return false;
     });
+    const extra = enabled.dso && window.noctemCatalogV011?.plannerCandidates ? window.noctemCatalogV011.plannerCandidates() : [];
+    return [...base, ...extra];
   }
 
   function evaluateCandidate(obj, observer, start) {
@@ -457,6 +461,7 @@
         <label><input type="checkbox" data-planner-cat="planet" ${settings.planner.categories.planet ? 'checked' : ''}> Solar system</label>
         <label><input type="checkbox" data-planner-cat="messier" ${settings.planner.categories.messier ? 'checked' : ''}> Messier</label>
         <label><input type="checkbox" data-planner-cat="star" ${settings.planner.categories.star ? 'checked' : ''}> Bright stars</label>
+        <label><input type="checkbox" data-planner-cat="dso" ${settings.planner.categories.dso !== false ? 'checked' : ''}> NGC / IC deep sky</label>
         <span class="mutedText">Local horizon: ${horizonArray(site?.horizon).some(v => v > 0) ? 'custom profile active' : 'flat / 0°'}</span>
       </div>
 

@@ -25,4 +25,5 @@
     };
   }
   window.noctemCatalogV011.plannerMagnitudeLimit=plannerLimit;
+  window.noctemCatalogV011.plannerCandidates=plannerDsos;
 })();
