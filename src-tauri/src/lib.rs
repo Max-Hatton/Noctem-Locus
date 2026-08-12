@@ -459,6 +459,7 @@ async fn native_restore_backup(app: AppHandle) -> Result<RestoreResult, String> 
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_notification::init())
         .invoke_handler(tauri::generate_handler![
             native_info,
             native_load_state,

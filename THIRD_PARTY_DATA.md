@@ -1,6 +1,6 @@
-# Third-party astronomical data
+# Third-party data and services
 
-Noctem Locus application code and bundled astronomical data are licensed separately.
+Noctem Locus application code, bundled astronomical datasets, and online forecast data are licensed separately.
 
 ## HYG stellar data
 
@@ -28,6 +28,18 @@ Most Caldwell designations are resolved through OpenNGC cross-references. Four c
 - C99 — Coalsack Nebula
 
 These supplemental records contain only catalog identity, basic object classification, aliases, and J2000 pointing coordinates needed by Noctem Locus.
+
+## Open-Meteo forecast data
+
+Beginning with v0.12, optional online weather forecasts are requested from **Open-Meteo** using the active observing site's latitude, longitude, and elevation. Noctem Locus requests hourly cloud layers, precipitation, temperature, humidity, dew point, visibility, wind, and gust data plus daily summary fields, then caches the returned forecast locally.
+
+Provider: **Open-Meteo**
+
+Forecast API: `api.open-meteo.com`
+
+Forecast data attribution/license: **CC BY 4.0** as documented by Open-Meteo. The public/free API is used by the current non-commercial beta; commercial distribution would require revisiting the provider plan/terms.
+
+Noctem Locus-derived values such as **Observing Score**, **dew risk**, **estimated transparency**, and **Best observing window** are application calculations based on forecast inputs. They should not be interpreted as provider-supplied or instrument-measured astronomical seeing values.
 
 ## Generated catalog artifact
 

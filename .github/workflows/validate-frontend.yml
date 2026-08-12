@@ -28,3 +28,8 @@ jobs:
             node scripts/check-catalog-v011.mjs
             node scripts/smoke-catalog-runtime-v011.mjs
           fi
+      - name: Validate astronomy weather runtime
+        run: |
+          if [ -f frontend/weather-v012.js ]; then
+            node scripts/smoke-weather-runtime-v012.mjs
+          fi
