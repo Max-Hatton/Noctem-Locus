@@ -22,8 +22,9 @@ jobs:
             [ -e "$file" ] || continue
             node --check "$file"
           done
-      - name: Validate generated catalog if present
+      - name: Validate expanded catalog
         run: |
           if [ -f frontend/catalog-v011.js ]; then
             node scripts/check-catalog-v011.mjs
+            node scripts/smoke-catalog-runtime-v011.mjs
           fi
