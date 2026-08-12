@@ -5,7 +5,7 @@
   const invoke = window.__TAURI__?.core?.invoke;
   if (!invoke) return;
 
-  const VERSION = '0.12.0';
+  const VERSION = '0.13.0';
   const legacySaveSettings = typeof saveSettings === 'function' ? saveSettings : null;
   const legacyPhotoPut = typeof photoDbPut === 'function' ? photoDbPut : null;
   const legacyPhotoGet = typeof photoDbGet === 'function' ? photoDbGet : null;
