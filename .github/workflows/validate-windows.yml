@@ -17,10 +17,10 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '24'
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -28,10 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check frontend JavaScript
+      - name: Check frontend JavaScript and catalog runtime
         shell: pwsh
         run: |
           Get-ChildItem frontend -Filter *.js | ForEach-Object { node --check $_.FullName }
+          if (Test-Path frontend/catalog-v011.js) {
+            node scripts/check-catalog-v011.mjs
+            node scripts/smoke-catalog-runtime-v011.mjs
+          }
 
       - name: Compile Noctem Locus
         run: npm run build -- --no-bundle
