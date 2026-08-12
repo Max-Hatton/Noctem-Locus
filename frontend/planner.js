@@ -2,7 +2,7 @@
   if (window.__NOCTEM_LOCUS_V010__) return;
   window.__NOCTEM_LOCUS_V010__ = true;
 
-  const VERSION = '0.11.0';
+  const VERSION = '0.12.0';
   const DIRECTIONS = [
     ['N',0],['NE',45],['E',90],['SE',135],
     ['S',180],['SW',225],['W',270],['NW',315]
@@ -176,8 +176,10 @@
       let score = base.score;
       if (!clear) score -= 90;
       else if (p.altitudeDeg < limit + 7) score -= 8;
+      const weather = window.noctemWeatherV012?.plannerAdjustment?.(date, site) || null;
+      if (weather) score += weather.delta;
       if (clear && !firstClear) firstClear = date;
-      const sample = { obj, p, date, rating: base, score, limit, clear };
+      const sample = { obj, p, date, rating: base, score, limit, clear, weather };
       if (!best || sample.score > best.score) best = sample;
     }
 
@@ -319,6 +321,7 @@
       : 'Not clear of local horizon';
     const clearNote = nowBlocked && c.firstClear ? ` · clears local horizon about ${timeLabel(c.firstClear)}` : '';
     const reason = c.rating?.reason || '';
+    const weatherNote = c.weather ? ` · forecast ${c.weather.label.toLowerCase()} (${Math.round(c.weather.cloud)}% clouds · dew ${c.weather.dew.toLowerCase()})` : '';
     return `<article class="v10TargetCard">
       <div class="v10TargetTop">
         <div><strong>${esc(displayObject(c.obj))}</strong><span>${esc(categoryLabel(c.obj))}</span></div>
@@ -328,7 +331,7 @@
         <span>Now <strong>${c.nowP.altitudeDeg.toFixed(0)}° · ${compassDirection(c.nowP.azimuthDeg)}</strong></span>
         <span>Best <strong>${best}</strong></span>
       </div>
-      <small>${esc(status)}${clearNote}${reason ? ` · ${esc(reason)}` : ''}</small>
+      <small>${esc(status)}${clearNote}${reason ? ` · ${esc(reason)}` : ''}${weatherNote}</small>
       <button class="miniButton" data-planner-add="${esc(c.obj.key)}">Add to plan</button>
     </article>`;
   }
@@ -447,7 +450,7 @@
         <div>
           <p class="eyebrow">OBSERVING PLANNER</p>
           <h3>Build tonight around what is actually visible.</h3>
-          <p>Targets are ranked across the next ${settings.planner.hoursAhead} hours using altitude, darkness, Moon interference, your selected telescope, and the custom horizon for <strong>${esc(site?.name || settings.locationName || 'this site')}</strong>.</p>
+          <p>Targets are ranked across the next ${settings.planner.hoursAhead} hours using altitude, darkness, Moon interference, your selected telescope, forecast observing conditions, and the custom horizon for <strong>${esc(site?.name || settings.locationName || 'this site')}</strong>.</p>
         </div>
         <div class="v10PlannerControls">
           <label>Observing site<select id="plannerSite">${settings.locations.map(s => `<option value="${esc(s.id)}" ${s.id === settings.activeLocationId ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></label>
