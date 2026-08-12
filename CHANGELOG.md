@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.12.0 — Astronomy weather and smart observing alerts
+- Added an online-enhanced **Weather** page powered by the active observing site's saved coordinates.
+- Added an eight-day Open-Meteo forecast cache stored with Noctem Locus application state; the latest cached forecast remains visible when the computer is offline and displays its age.
+- Added astronomy-focused hourly conditions: total/low/mid/high cloud cover, precipitation probability, temperature, humidity, dew point, visibility, wind, and gusts.
+- Added a Noctem Locus **Observing Score** and estimated transparency rating derived from forecast conditions. These are planning estimates, not measured astronomical seeing values.
+- Added low/medium/high dew-risk estimates based on forecast temperature, dew point, and humidity.
+- Added automatic **Best observing window** detection that combines forecast conditions with twilight/darkness.
+- Added a multi-night **Observing Outlook**; selecting a forecast night opens Planner for that date.
+- Added a compact Astronomy Weather card to the Tonight dashboard.
+- Integrated cached weather with Planner scoring so target best-times can shift toward clearer, drier observing windows.
+- Added configurable smart alerts for good observing windows, high dew risk during an active session, and target-specific altitude/cloud conditions.
+- Added native Windows notifications through the Tauri notification plugin, with in-app alert fallback. Alert rules are evaluated while Noctem Locus is running.
+- Added weather unit controls and an option to disable weather without affecting offline astronomy features.
+- Added Open-Meteo attribution and explicit separation between provider forecast data and Noctem Locus-derived observing estimates.
+- Added fast weather runtime smoke tests to development CI and the final Windows validation gate.
+
 ## v0.11.0 — Expanded catalog and richer sky views
 - Added a compact offline HYG 4.1 star layer with 15,599 source stars through visual magnitude 7.0.
 - Added 13,202 NGC/IC source objects from OpenNGC with object type, magnitude, angular size, aliases, and constellation data when available.
