@@ -16,71 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Patch v0.12 integration points
-        shell: python
-        run: |
-          from pathlib import Path
-
-          # Native bridge: version + weather feature loader.
-          p = Path('frontend/native-bridge.js')
-          s = p.read_text()
-          s = s.replace("const VERSION = '0.11.0';", "const VERSION = '0.12.0';")
-          s = s.replace('async function loadV011Features() {', 'async function loadV012Features() {')
-          s = s.replace('window.__NOCTEM_LOCUS_V011_LOADER__', 'window.__NOCTEM_LOCUS_V012_LOADER__')
-          anchor = "      ['sky-ui-v011.js','v0.11-sky-ui']\n"
-          if anchor not in s:
-              raise SystemExit('native bridge loader anchor not found')
-          s = s.replace(anchor, "      ['sky-ui-v011.js','v0.11-sky-ui'],\n      ['weather-v012.js','v0.12-weather-alerts']\n")
-          s = s.replace('void initialize().then(loadV011Features).catch(error => {', 'void initialize().then(loadV012Features).catch(error => {')
-          p.write_text(s)
-
-          # Planner: mix cached weather into each time sample and expose it in recommendation cards.
-          p = Path('frontend/planner.js')
-          s = p.read_text()
-          s = s.replace("const VERSION = '0.11.0';", "const VERSION = '0.12.0';")
-          old = """      if (!clear) score -= 90;
-      else if (p.altitudeDeg < limit + 7) score -= 8;
-      if (clear && !firstClear) firstClear = date;
-      const sample = { obj, p, date, rating: base, score, limit, clear };"""
-          new = """      if (!clear) score -= 90;
-      else if (p.altitudeDeg < limit + 7) score -= 8;
-      const weather = window.noctemWeatherV012?.plannerAdjustment?.(date, site) || null;
-      if (weather) score += weather.delta;
-      if (clear && !firstClear) firstClear = date;
-      const sample = { obj, p, date, rating: base, score, limit, clear, weather };"""
-          if old not in s:
-              raise SystemExit('planner scoring anchor not found')
-          s = s.replace(old, new)
-          old = """    const reason = c.rating?.reason || '';
-    return `<article class=\"v10TargetCard\">"""
-          new = """    const reason = c.rating?.reason || '';
-    const weatherNote = c.weather ? ` · forecast ${c.weather.label.toLowerCase()} (${Math.round(c.weather.cloud)}% clouds · dew ${c.weather.dew.toLowerCase()})` : '';
-    return `<article class=\"v10TargetCard\">"""
-          if old not in s:
-              raise SystemExit('planner recommendation anchor not found')
-          s = s.replace(old, new)
-          old = """      <small>${esc(status)}${clearNote}${reason ? ` · ${esc(reason)}` : ''}</small>"""
-          new = """      <small>${esc(status)}${clearNote}${reason ? ` · ${esc(reason)}` : ''}${weatherNote}</small>"""
-          if old not in s:
-              raise SystemExit('planner weather-note anchor not found')
-          s = s.replace(old, new)
-          s = s.replace('using altitude, darkness, Moon interference, your selected telescope, and the custom horizon', 'using altitude, darkness, Moon interference, your selected telescope, forecast observing conditions, and the custom horizon')
-          p.write_text(s)
-
-          # Native Windows notification plugin.
-          p = Path('src-tauri/src/lib.rs')
-          s = p.read_text()
-          anchor = '        .plugin(tauri_plugin_dialog::init())\n'
-          if anchor not in s:
-              raise SystemExit('Tauri plugin anchor not found')
-          s = s.replace(anchor, anchor + '        .plugin(tauri_plugin_notification::init())\n')
-          p.write_text(s)
-
+        run: python3 scripts/integrate-v012.py
       - name: Fast syntax validation
         run: |
           node --check frontend/weather-v012.js
           node --check frontend/native-bridge.js
           node --check frontend/planner.js
-
       - name: Commit assembled integration
         run: |
           git config user.name "github-actions[bot]"
