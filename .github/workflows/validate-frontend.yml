@@ -1,0 +1,30 @@
+name: Fast Frontend Checks
+
+on:
+  push:
+    branches:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Syntax-check frontend JavaScript
+        run: |
+          node --version
+          for file in frontend/*.js; do
+            [ -e "$file" ] || continue
+            node --check "$file"
+          done
+      - name: Validate expanded catalog
+        run: |
+          if [ -f frontend/catalog-v011.js ]; then
+            node scripts/check-catalog-v011.mjs
+            node scripts/smoke-catalog-runtime-v011.mjs
+          fi
