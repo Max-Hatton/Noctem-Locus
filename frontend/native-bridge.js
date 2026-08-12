@@ -400,7 +400,8 @@
       ['catalog-ui-v011.js','v0.11-catalog-ui'],
       ['sky-render-v011.js','v0.11-sky'],
       ['sky-ui-v011.js','v0.11-sky-ui'],
-      ['weather-v012.js','v0.12-weather-alerts']
+      ['weather-v012.js','v0.12-weather-alerts'],
+      ['insights-v013.js','v0.13-observing-insights']
     ]) await loadFeatureScript(file, tag);
     if (typeof renderShell === 'function') renderShell();
   }
