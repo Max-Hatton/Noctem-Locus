@@ -1,0 +1,33 @@
+name: Assemble v0.11 Catalog
+
+on:
+  push:
+    branches:
+      - v0.11-catalog-sky
+    paths:
+      - .github/workflows/assemble-v011.yml
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Build compact offline catalog
+        run: python3 scripts/build_catalog_v011.py
+      - name: Apply v0.11 wiring and version patches
+        run: node scripts/assemble-v011.mjs
+      - name: Syntax-check frontend modules
+        run: |
+          for file in frontend/*.js; do node --check "$file"; done
+          node scripts/check-catalog-v011.mjs
+      - name: Commit generated v0.11 assembly
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/catalog-v011.js frontend/native-bridge.js frontend/sky-render-v011.js package.json src-tauri/Cargo.toml src-tauri/tauri.conf.json
+          git commit -m "Assemble v0.11 expanded catalog and sky modules"
+          git push
