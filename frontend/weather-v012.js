@@ -17,6 +17,8 @@
     'weather_code','temperature_2m_max','temperature_2m_min',
     'precipitation_probability_max','wind_speed_10m_max'
   ];
+  const PRECIP_CODES = new Set([51,53,55,56,57,61,63,65,66,67,71,73,75,77,80,81,82,85,86,95,96,99]);
+  const THUNDER_CODES = new Set([95,96,99]);
 
   let refreshPromise = null;
   let backgroundTimer = null;
@@ -199,6 +201,25 @@
     return 'Forecast';
   }
 
+  function weatherCodeIcon(code) {
+    const c = Number(code);
+    if (c === 0) return '✦';
+    if (c === 1) return '◔';
+    if (c === 2) return '⛅';
+    if (c === 3) return '☁';
+    if ([45,48].includes(c)) return '🌫';
+    if ([51,53,55,56,57].includes(c)) return '🌦';
+    if ([61,63,65,66,67,80,81,82].includes(c)) return '🌧';
+    if ([71,73,75,77,85,86].includes(c)) return '🌨';
+    if ([95,96,99].includes(c)) return '⛈';
+    return '•';
+  }
+
+  function isPrecipitating(hour) {
+    if (!hour) return false;
+    return PRECIP_CODES.has(Number(hour.weatherCode)) || Number(hour.precipitationMm) >= 0.05;
+  }
+
   function useFahrenheit() {
     const u = ensureWeatherSettings().units;
     if (u === 'f') return true;
@@ -208,6 +229,40 @@
   function tempText(c) { return Number.isFinite(c) ? `${Math.round(useFahrenheit() ? c*9/5+32 : c)}°${useFahrenheit()?'F':'C'}` : '—'; }
   function windMph(kmh) { return Number(kmh) * 0.621371; }
   function windText(kmh) { return Number.isFinite(kmh) ? (useFahrenheit() ? `${Math.round(windMph(kmh))} mph` : `${Math.round(kmh)} km/h`) : '—'; }
+  function precipAmountText(mm) {
+    const value = Number(mm);
+    if (!Number.isFinite(value) || value <= 0) return useFahrenheit() ? '0 in' : '0 mm';
+    if (useFahrenheit()) {
+      const inches = value / 25.4;
+      if (inches < 0.01) return '<0.01 in';
+      return `${inches < 0.1 ? inches.toFixed(2) : inches.toFixed(1)} in`;
+    }
+    if (value < 0.1) return '<0.1 mm';
+    return `${value < 10 ? value.toFixed(1) : Math.round(value)} mm`;
+  }
+
+  function precipitationStart(cache, from = new Date(), hoursAhead = 6) {
+    if (!cache?.hourEpoch?.length) return null;
+    const start = from.getTime(), end = start + hoursAhead * 3600000;
+    let previous = nearestHour(cache, from);
+    let previousWet = isPrecipitating(previous);
+    for (let i=0;i<cache.hourEpoch.length;i++) {
+      const t = cache.hourEpoch[i];
+      if (t <= start || t > end) continue;
+      const row = hourlyAtIndex(cache, i);
+      const wet = isPrecipitating(row);
+      if (wet && !previousWet) return row;
+      previousWet = wet;
+    }
+    return null;
+  }
+
+  function timeUntilText(date, from = new Date()) {
+    const mins = Math.max(0, Math.round((date.getTime() - from.getTime()) / 60000));
+    if (mins < 60) return `in ~${mins} min`;
+    const h = Math.floor(mins / 60), m = mins % 60;
+    return `in ~${h}h${m ? ` ${m}m` : ''}`;
+  }
 
   function dewRisk(hour) {
     if (!hour || !Number.isFinite(hour.temperatureC) || !Number.isFinite(hour.dewPointC)) return {level:'Unknown', className:'poor', spreadC:NaN};
@@ -219,6 +274,7 @@
 
   function transparencyEstimate(hour) {
     if (!hour) return 'Unknown';
+    if (isPrecipitating(hour)) return 'Poor';
     const visKm = Number(hour.visibilityM) / 1000;
     let score = 100;
     score -= clamp(hour.cloudHigh,0,100) * .25;
@@ -246,6 +302,8 @@
     const dew = dewRisk(hour);
     if (dew.level === 'High') score -= 10;
     else if (dew.level === 'Medium') score -= 4;
+    if (isPrecipitating(hour)) score = Math.min(score, THUNDER_CODES.has(Number(hour.weatherCode)) ? 5 : 10);
+    else if (Number(hour.precipProbability) >= 80) score = Math.min(score, 30);
     score = Math.round(clamp(score,0,100));
     return {
       score,
@@ -283,7 +341,7 @@
     const rows = nightHours(cache, from, hoursAhead).filter(x => x.sunAltitude < -6);
     let best = null, current = null;
     for (const row of rows) {
-      const usable = row.observing.score >= minScore && row.precipProbability < 45;
+      const usable = row.observing.score >= minScore && row.precipProbability < 45 && !isPrecipitating(row);
       if (usable) {
         if (!current) current = {start:row.date,end:new Date(row.date.getTime()+3600000),rows:[]};
         current.end = new Date(row.date.getTime()+3600000); current.rows.push(row);
@@ -312,8 +370,9 @@
     let delta = Math.round((wx.score - 68) * .72);
     if (wx.hour.cloud >= 80) delta -= 35;
     else if (wx.hour.cloud >= 60) delta -= 20;
-    if (wx.hour.precipProbability >= 50 || wx.hour.precipitationMm > 0.1) delta -= 35;
-    return {delta, score:wx.score, label:wx.label, cloud:wx.hour.cloud, dew:wx.dew.level, windKmh:wx.hour.windKmh, transparency:wx.transparency};
+    if (isPrecipitating(wx.hour)) delta -= 60;
+    else if (wx.hour.precipProbability >= 50 || wx.hour.precipitationMm > 0.1) delta -= 35;
+    return {delta, score:wx.score, label:wx.label, cloud:wx.hour.cloud, dew:wx.dew.level, windKmh:wx.hour.windKmh, transparency:wx.transparency, precipitating:isPrecipitating(wx.hour), precipProbability:wx.hour.precipProbability, precipitationMm:wx.hour.precipitationMm, condition:weatherCodeText(wx.hour.weatherCode)};
   }
 
   function timeShort(date) { return date.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}); }
@@ -322,9 +381,10 @@
     const rows = nightHours(cache,new Date(),18).slice(0,18);
     if (!rows.length) return '<div class="v12Empty">No hourly forecast is cached for this period.</div>';
     return `<div class="v12HourlyScroller">${rows.map(r=>`
-      <article class="v12Hour ${r.sunAltitude < -18 ? 'dark' : ''}">
-        <strong>${escWx(timeShort(r.date))}</strong><span>${escWx(weatherCodeText(r.weatherCode))}</span>
+      <article class="v12Hour ${r.sunAltitude < -18 ? 'dark' : ''} ${isPrecipitating(r) ? 'precipitating' : ''}">
+        <strong>${escWx(timeShort(r.date))}</strong><span class="v13WxCondition">${weatherCodeIcon(r.weatherCode)} ${escWx(weatherCodeText(r.weatherCode))}</span>
         <div class="v12Score ${r.observing.className}">${r.observing.score}</div>
+        <small>Precip <b>${Math.round(r.precipProbability)}% · ${escWx(precipAmountText(r.precipitationMm))}</b></small>
         <small>Clouds <b>${Math.round(r.cloud)}%</b></small>
         <small>Wind <b>${escWx(windText(r.windKmh))}</b></small>
         <small>Dew <b>${escWx(r.observing.dew.level)}</b></small>
@@ -350,13 +410,13 @@
     const items = dailyOutlook(cache);
     return `<div class="v12Outlook">${items.map((d,i)=>{
       const date = new Date(`${d.day}T12:00:00`), label=d.score>=80?'Excellent':d.score>=65?'Good':d.score>=45?'Fair':'Poor';
-      return `<button class="v12Day" data-weather-plan-date="${escWx(d.day)}"><span>${i===0?'Tonight':escWx(date.toLocaleDateString([],{weekday:'short'}))}</span><strong>${d.score}/100</strong><small>${escWx(label)} · ${Math.round(d.precip)}% precip</small><small>${escWx(tempText(d.minC))}–${escWx(tempText(d.maxC))}</small></button>`;
+      return `<button class="v12Day" data-weather-plan-date="${escWx(d.day)}"><span>${i===0?'Tonight':escWx(date.toLocaleDateString([],{weekday:'short'}))} · ${weatherCodeIcon(d.code)}</span><strong>${d.score}/100</strong><small>${escWx(label)} · ${Math.round(d.precip)}% precip</small><small>${escWx(tempText(d.minC))}–${escWx(tempText(d.maxC))}</small></button>`;
     }).join('')}</div>`;
   }
 
   function currentSummary(cache) {
-    const h = nearestHour(cache,new Date()), s = observingScore(h), window = bestWindow(cache,new Date(),18,Math.max(50,Number(settings.weather.alerts.minScore)-10),60);
-    return {hour:h,score:s,window};
+    const h = nearestHour(cache,new Date()), s = observingScore(h), window = bestWindow(cache,new Date(),18,Math.max(50,Number(settings.weather.alerts.minScore)-10),60), precipStart = precipitationStart(cache,new Date(),6);
+    return {hour:h,score:s,window,precipStart};
   }
 
   function cacheStatus(cache) {
@@ -375,15 +435,21 @@
     }
     const cache = weatherCache(site);
     const summary = currentSummary(cache);
-    const h = summary.hour, s = summary.score, win=summary.window;
+    const h = summary.hour, s = summary.score, win=summary.window, precipStart=summary.precipStart;
     const windowText = win ? `${timeShort(win.start)}–${timeShort(win.end)}` : 'No strong window found';
-    const heroReason = h ? `${Math.round(h.cloud)}% clouds · ${windText(h.windKmh)} wind · dew risk ${s.dew.level.toLowerCase()} · estimated transparency ${s.transparency.toLowerCase()}` : 'Load a forecast to calculate observing conditions.';
+    const currentCondition = h ? `${weatherCodeIcon(h.weatherCode)} ${weatherCodeText(h.weatherCode)}` : '—';
+    const precipDetail = h ? `${Math.round(h.precipProbability)}% chance · ${precipAmountText(h.precipitationMm)}` : 'No cached hour';
+    const nextPrecip = h && !isPrecipitating(h) && precipStart ? `${weatherCodeText(precipStart.weatherCode)} forecast around ${timeShort(precipStart.date)} (${timeUntilText(precipStart.date)})` : (h && isPrecipitating(h) ? 'Precipitation is forecast for the current hour' : 'No precipitation onset in the next 6 hours');
+    const heroReason = h ? `${currentCondition} · ${precipDetail} · ${Math.round(h.cloud)}% clouds · ${windText(h.windKmh)} wind · dew risk ${s.dew.level.toLowerCase()} · estimated transparency ${s.transparency.toLowerCase()}` : 'Load a forecast to calculate observing conditions.';
+    const heroTitle = cache ? (h && isPrecipitating(h) ? `${currentCondition} now` : `${s.label} observing conditions`) : 'Weather not loaded yet';
     document.getElementById('page').innerHTML = `<section class="pageStack">
-      <section class="v12WeatherHero">
-        <div><p class="eyebrow">ASTRONOMY WEATHER · ${escWx(site.name || 'OBSERVING SITE')}</p><h3>${cache ? `${s.label} observing conditions` : 'Weather not loaded yet'}</h3><p>${escWx(heroReason)}</p><div class="inlineActions"><button class="primaryButton" id="weatherRefresh">${cache?'Refresh forecast':'Load forecast'}</button><span class="mutedText" id="weatherCacheStatus">${escWx(cacheStatus(cache))}</span></div></div>
+      <section class="v12WeatherHero ${h && isPrecipitating(h) ? 'precipitating' : ''}">
+        <div><p class="eyebrow">ASTRONOMY WEATHER · ${escWx(site.name || 'OBSERVING SITE')}</p><h3>${escWx(heroTitle)}</h3><p>${escWx(heroReason)}</p><div class="inlineActions"><button class="primaryButton" id="weatherRefresh">${cache?'Refresh forecast':'Load forecast'}</button><span class="mutedText" id="weatherCacheStatus">${escWx(cacheStatus(cache))}</span></div></div>
         <div class="v12HeroScore ${s.className}"><strong>${cache?s.score:'—'}</strong><span>OBSERVING SCORE</span></div>
       </section>
       <div class="v12MetricGrid">
+        ${metricCard('Current conditions',currentCondition,h?weatherCodeText(h.weatherCode):'No cached hour')}
+        ${metricCard('Precipitation',h?(isPrecipitating(h)?currentCondition:`${Math.round(h.precipProbability)}% chance`):'—',h?`${precipDetail} · ${nextPrecip}`:'No cached hour')}
         ${metricCard('Best window',windowText,win?`${win.avgCloud}% avg clouds · score ${win.score}`:'Forecast/darkness do not line up well')}
         ${metricCard('Cloud cover',h?`${Math.round(h.cloud)}%`:'—',h?`Low ${Math.round(h.cloudLow)}% · mid ${Math.round(h.cloudMid)}% · high ${Math.round(h.cloudHigh)}%`:'No cached hour')}
         ${metricCard('Dew risk',h?s.dew.level:'—',h?`${tempText(h.temperatureC)} air · ${tempText(h.dewPointC)} dew point`:'No cached hour')}
@@ -461,11 +527,14 @@
 
   function tonightWeatherHtml(cache) {
     const site=activeSite(); if(!site)return'';
-    const s=currentSummary(cache),h=s.hour,w=s.window;
+    const s=currentSummary(cache),h=s.hour,w=s.window,p=s.precipStart;
+    const precipValue=h?(isPrecipitating(h)?`${weatherCodeIcon(h.weatherCode)} ${weatherCodeText(h.weatherCode)}`:`${Math.round(h.precipProbability)}%`):'—';
+    const precipDetail=h?(isPrecipitating(h)?precipAmountText(h.precipitationMm):(p?`${weatherCodeText(p.weatherCode)} ${timeUntilText(p.date)}`:'Dry next 6h')):'—';
     return `<section class="panel v12TonightWeather"><div class="panelHeader"><div><p class="eyebrow">ASTRONOMY WEATHER</p><h3>${cache?`${s.score.label} tonight · ${s.score.score}/100`:'Weather forecast not loaded'}</h3></div><button class="miniButton" id="openWeatherPage">Open Weather</button></div>
       <div class="v12TonightGrid">
+        <div><span>Conditions</span><strong>${h?`${weatherCodeIcon(h.weatherCode)} ${escWx(weatherCodeText(h.weatherCode))}`:'—'}</strong></div>
+        <div><span>Precipitation</span><strong>${escWx(precipValue)}</strong><small>${escWx(precipDetail)}</small></div>
         <div><span>Clouds</span><strong>${h?`${Math.round(h.cloud)}%`:'—'}</strong></div>
-        <div><span>Wind</span><strong>${h?windText(h.windKmh):'—'}</strong></div>
         <div><span>Dew risk</span><strong>${h?s.score.dew.level:'—'}</strong></div>
         <div><span>Best window</span><strong>${w?`${timeShort(w.start)}–${timeShort(w.end)}`:'—'}</strong></div>
       </div><small>${escWx(cacheStatus(cache))}</small></section>`;
@@ -525,17 +594,17 @@
       try{
         const obj=catalogObject(a.targetKey),observer=parseObserver(),hour=nearestHour(cache,new Date());
         if(obj&&observer&&hour){const p=positionForObject(obj,observer,new Date()),limit=window.noctemLocusPlanner?.horizonLimit?.(p.azimuthDeg)||0,sun=getBodyPosition('Sun',observer,new Date());
-          if(p.altitudeDeg>=Number(a.targetMinAltitude)&&p.altitudeDeg>limit+1&&hour.cloud<=Number(a.targetMaxCloud)&&hour.precipProbability<30&&sun.altitudeDeg<0){const key=`target:${a.targetKey}`;if(canAlert(key,a.cooldownHours)){markAlert(key);await sendSmartAlert(`${typeof objectDisplayName==='function'?objectDisplayName(obj):(obj.name||obj.id)} is ready`,`${p.altitudeDeg.toFixed(0)}° high · ${Math.round(hour.cloud)}% clouds · ${windText(hour.windKmh)} wind.`);}}}
+          if(p.altitudeDeg>=Number(a.targetMinAltitude)&&p.altitudeDeg>limit+1&&hour.cloud<=Number(a.targetMaxCloud)&&hour.precipProbability<30&&!isPrecipitating(hour)&&sun.altitudeDeg<0){const key=`target:${a.targetKey}`;if(canAlert(key,a.cooldownHours)){markAlert(key);await sendSmartAlert(`${typeof objectDisplayName==='function'?objectDisplayName(obj):(obj.name||obj.id)} is ready`,`${p.altitudeDeg.toFixed(0)}° high · ${Math.round(hour.cloud)}% clouds · ${windText(hour.windKmh)} wind.`);}}}
       }catch(e){console.warn('Target weather alert evaluation failed',e);}
     }
   }
 
   function installStyles() {
     if(document.getElementById('v12WeatherStyles'))return; const style=document.createElement('style');style.id='v12WeatherStyles';style.textContent=`
-      .v12WeatherHero{border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 82% 22%,var(--glow),transparent 38%),var(--panel);padding:28px;display:flex;justify-content:space-between;align-items:center;gap:24px}.v12WeatherHero h3{font-size:32px;margin:0 0 10px}.v12WeatherHero p{max-width:760px;color:var(--muted);line-height:1.5;margin:0}.v12HeroScore{min-width:150px;aspect-ratio:1;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;align-content:center;background:var(--panel2)}.v12HeroScore strong{font-size:46px;font-weight:500}.v12HeroScore span{font-size:9px;color:var(--muted);letter-spacing:.12em}.v12HeroScore.good{box-shadow:0 0 30px var(--glow)}
-      .v12MetricGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.v12Metric{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:16px;display:grid;gap:7px}.v12Metric span,.v12Metric small{color:var(--muted);font-size:10px}.v12Metric strong{font-size:18px;font-weight:550}.v12HourlyScroller{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(130px,1fr);overflow-x:auto;gap:9px;margin-top:18px;padding-bottom:7px}.v12Hour{border:1px solid var(--border);border-radius:13px;background:var(--panel2);padding:12px;display:grid;gap:6px;min-height:190px}.v12Hour.dark{border-color:var(--accent)}.v12Hour>span,.v12Hour small{color:var(--muted);font-size:10px}.v12Hour small{display:flex;justify-content:space-between;gap:8px}.v12Hour b{color:var(--text);font-weight:550}.v12Score{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border);font-size:12px}.v12Score.good{background:var(--glow);color:var(--good)}.v12Score.fair{color:var(--text)}.v12Score.poor{color:var(--muted)}
+      .v12WeatherHero{border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 82% 22%,var(--glow),transparent 38%),var(--panel);padding:28px;display:flex;justify-content:space-between;align-items:center;gap:24px}.v12WeatherHero.precipitating{border-color:var(--accent)}.v12WeatherHero h3{font-size:32px;margin:0 0 10px}.v12WeatherHero p{max-width:760px;color:var(--muted);line-height:1.5;margin:0}.v12HeroScore{min-width:150px;aspect-ratio:1;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;align-content:center;background:var(--panel2)}.v12HeroScore strong{font-size:46px;font-weight:500}.v12HeroScore span{font-size:9px;color:var(--muted);letter-spacing:.12em}.v12HeroScore.good{box-shadow:0 0 30px var(--glow)}
+      .v12MetricGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.v12Metric{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:16px;display:grid;gap:7px}.v12Metric span,.v12Metric small{color:var(--muted);font-size:10px}.v12Metric strong{font-size:18px;font-weight:550}.v12HourlyScroller{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(145px,1fr);overflow-x:auto;gap:9px;margin-top:18px;padding-bottom:7px}.v12Hour{border:1px solid var(--border);border-radius:13px;background:var(--panel2);padding:12px;display:grid;gap:6px;min-height:218px}.v12Hour.dark{border-color:var(--accent)}.v12Hour.precipitating{box-shadow:inset 0 0 0 1px var(--accent)}.v12Hour>span,.v12Hour small{color:var(--muted);font-size:10px}.v12Hour .v13WxCondition{font-size:11px;color:var(--text)}.v12Hour small{display:flex;justify-content:space-between;gap:8px}.v12Hour b{color:var(--text);font-weight:550}.v12Score{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border);font-size:12px}.v12Score.good{background:var(--glow);color:var(--good)}.v12Score.fair{color:var(--text)}.v12Score.poor{color:var(--muted)}
       .v12Outlook{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:9px;margin-top:18px;overflow-x:auto}.v12Day{border:1px solid var(--border);border-radius:13px;background:var(--panel2);color:var(--text);padding:14px;text-align:left;display:grid;gap:7px}.v12Day:hover{background:var(--glow)}.v12Day span,.v12Day small{color:var(--muted);font-size:10px}.v12Day strong{font-size:20px}.v12AlertGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}.v12AlertGrid label,.v12TargetRule label,.v12InlineLabel{border:1px solid var(--border);border-radius:11px;background:var(--panel2);padding:11px;display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:11px}.v12AlertGrid input[type=number],.v12TargetRule input,.v12TargetRule select,.v12InlineLabel select{min-width:0;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:7px}.v12TargetRule{display:grid;grid-template-columns:1.5fr .7fr .7fr;gap:10px;margin-top:10px}.v12TargetRule small{color:var(--muted)}.v12Empty{padding:24px 0;color:var(--muted)}
-      .v12TonightWeather{display:grid;gap:14px}.v12TonightGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.v12TonightGrid>div{border:1px solid var(--border);background:var(--panel2);border-radius:11px;padding:12px;display:grid;gap:5px}.v12TonightGrid span{font-size:10px;color:var(--muted)}.v12TonightGrid strong{font-size:14px}.v12CheckLabel{display:flex;gap:7px;align-items:center;color:var(--muted);font-size:11px}
+      .v12TonightWeather{display:grid;gap:14px}.v12TonightGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.v12TonightGrid>div{border:1px solid var(--border);background:var(--panel2);border-radius:11px;padding:12px;display:grid;gap:5px}.v12TonightGrid span,.v12TonightGrid small{font-size:10px;color:var(--muted)}.v12TonightGrid strong{font-size:14px}.v12CheckLabel{display:flex;gap:7px;align-items:center;color:var(--muted);font-size:11px}
       @media(max-width:1050px){.v12MetricGrid,.v12TonightGrid{grid-template-columns:1fr 1fr}.v12AlertGrid{grid-template-columns:1fr 1fr}.v12Outlook{grid-template-columns:repeat(6,140px)}}@media(max-width:760px){.v12WeatherHero{flex-direction:column;align-items:flex-start}.v12HeroScore{min-width:115px}.v12MetricGrid,.v12TonightGrid,.v12AlertGrid,.v12TargetRule{grid-template-columns:1fr}}
     `;document.head.appendChild(style);
   }
@@ -557,7 +626,7 @@
     void backgroundCycle();
     backgroundTimer=setInterval(()=>void backgroundCycle(),ALERT_POLL_MS);
     window.addEventListener('online',()=>void backgroundCycle());
-    window.noctemWeatherV012={version:VERSION,provider:PROVIDER,refresh:opts=>refreshForecast(opts),cache:()=>weatherCache(),hourFor,scoreAt,bestWindow,plannerAdjustment,dewRisk,observingScore,evaluateAlerts};
+    window.noctemWeatherV012={version:VERSION,provider:PROVIDER,refresh:opts=>refreshForecast(opts),cache:()=>weatherCache(),hourFor,scoreAt,bestWindow,plannerAdjustment,dewRisk,observingScore,evaluateAlerts,isPrecipitating,precipitationStart,weatherCodeText,weatherCodeIcon,precipAmountText};
     renderShell();
   }
 
