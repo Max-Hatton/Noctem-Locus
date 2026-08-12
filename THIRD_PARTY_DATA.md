@@ -18,6 +18,17 @@ Source: `mattiaverga/OpenNGC` (`database_files/NGC.csv`)
 
 License: **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
 
+## Caldwell coverage
+
+Most Caldwell designations are resolved through OpenNGC cross-references. Four catalog targets that are not represented cleanly by one NGC/IC row are supplied as small application-maintained records so Finder can cover C1 through C109:
+
+- C9 — Cave Nebula / Sh2-155
+- C14 — Double Cluster / NGC 869 + NGC 884
+- C41 — Hyades
+- C99 — Coalsack Nebula
+
+These supplemental records contain only catalog identity, basic object classification, aliases, and J2000 pointing coordinates needed by Noctem Locus.
+
 ## Generated catalog artifact
 
-`frontend/catalog-v011.js` is a transformed/compact data artifact derived from the two sources above. That generated catalog data is distributed under **CC BY-SA 4.0**. This data license does not change the separate licensing status of the Noctem Locus application source code.
+`frontend/catalog-v011.js` is a transformed/compact data artifact derived from HYG and OpenNGC. That generated catalog data is distributed under **CC BY-SA 4.0**. This data license does not change the separate licensing status of the Noctem Locus application source code.
