@@ -5,7 +5,7 @@
   const invoke = window.__TAURI__?.core?.invoke;
   if (!invoke) return;
 
-  const VERSION = '0.10.0';
+  const VERSION = '0.11.0';
   const legacySaveSettings = typeof saveSettings === 'function' ? saveSettings : null;
   const legacyPhotoPut = typeof photoDbPut === 'function' ? photoDbPut : null;
   const legacyPhotoGet = typeof photoDbGet === 'function' ? photoDbGet : null;
@@ -378,18 +378,33 @@
     };
   }
 
-  function loadV010Features() {
-    if (window.__NOCTEM_LOCUS_V010_LOADER__) return;
-    window.__NOCTEM_LOCUS_V010_LOADER__ = true;
-    const script = document.createElement('script');
-    script.src = new URL('planner.js', document.baseURI).href;
-    script.async = false;
-    script.dataset.noctemFeature = 'v0.10';
-    script.onerror = () => console.error('Noctem Locus v0.10 planner layer could not be loaded');
-    document.head.appendChild(script);
+  function loadFeatureScript(file, tag) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = new URL(file, document.baseURI).href;
+      script.async = false;
+      script.dataset.noctemFeature = tag;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error(`Could not load ${file}`));
+      document.head.appendChild(script);
+    });
   }
 
-  void initialize().then(loadV010Features).catch(error => {
+  async function loadV011Features() {
+    if (window.__NOCTEM_LOCUS_V011_LOADER__) return;
+    window.__NOCTEM_LOCUS_V011_LOADER__ = true;
+    for (const [file, tag] of [
+      ['planner.js','v0.10-planner'],
+      ['catalog-v011.js','v0.11-data'],
+      ['catalog-core-v011.js','v0.11-catalog'],
+      ['catalog-ui-v011.js','v0.11-catalog-ui'],
+      ['sky-render-v011.js','v0.11-sky'],
+      ['sky-ui-v011.js','v0.11-sky-ui']
+    ]) await loadFeatureScript(file, tag);
+    if (typeof renderShell === 'function') renderShell();
+  }
+
+  void initialize().then(loadV011Features).catch(error => {
     console.error('Noctem Locus native bridge failed', error);
     bridgeToast('Native data bridge could not start; compatibility storage is still available.');
   });

@@ -1,6 +1,6 @@
 [package]
 name = "noctem-locus"
-version = "0.10.0"
+version = "0.11.0"
 description = "Offline astronomy and telescope companion"
 authors = ["Noctem Locus"]
 edition = "2021"
