@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.11.0 — Expanded catalog and richer sky views
+- Added a compact offline HYG 4.1 star layer with 15,599 source stars through visual magnitude 7.0.
+- Added 13,202 NGC/IC source objects from OpenNGC with object type, magnitude, angular size, aliases, and constellation data when available.
+- Added Caldwell search aliases plus supplemental C9, C14, C41, and C99 targets for complete C1–C109 coverage.
+- Expanded Object Finder search to support NGC, IC, Caldwell designations, common names, HIP identifiers, and the deeper star catalog.
+- Integrated suitable NGC/IC targets into Tonight recommendations and the v0.10 Observing Planner.
+- Added magnitude-scaled stellar rendering and approximate B−V-derived stellar color in normal/day mode while preserving red night mode.
+- Added deep-sky chart symbols by object class, including galaxies, clusters, planetary nebulae, and other nebulae.
+- Added constellation-name overlays with collision-aware labels.
+- Added a subtle offline Milky Way band guide.
+- Added selectable star-depth controls (mag 5.5–7.0) and toggles for deep sky, Milky Way, constellation names, and finder FOV.
+- Added finder-scope and selected-eyepiece field-of-view rings around the selected target.
+- Drew the active observing site's custom local-horizon obstruction directly into All-Sky and Horizon View.
+- Added Horizon View guards to avoid obstruction/projection streaks when looking near the zenith.
+- Split v0.11 into catalog, catalog-UI, sky-render, and sky-UI feature modules instead of expanding the original single HTML file.
+- Added reproducible catalog generation plus third-party data attribution documentation.
+- Changed CI so development pushes use fast frontend/catalog checks; the expensive Windows/Tauri compile now runs only for final pull requests (or manual validation).
+
 ## v0.10.0 — Observing planner and local horizons
 - Added a new **Planner** page for building an observing night around what is actually visible.
 - Added configurable 4–12 hour planning windows and target-count controls.
@@ -12,7 +30,6 @@
 - Integrated the active site's local horizon into object ratings so blocked objects can be distinguished from objects that are simply astronomically above the horizon.
 - Added planner messaging for objects blocked by the local horizon and estimated obstruction-clear times.
 - Split the new planner/site functionality into `frontend/planner.js` so future feature development no longer requires expanding the original single-file astronomy engine.
-- Updated Windows validation to check all version branches and syntax-check the planner feature layer before compiling the Tauri application.
 
 ## v0.9.1 — Native data foundation
 - Moved the working copy of settings, telescope/eyepiece profiles, alignment data, and observation metadata into a native `state.json` file under the Noctem Locus application-data directory.
