@@ -3,7 +3,7 @@ name: Validate Windows Build
 on:
   push:
     branches:
-      - v0.9.1-native-data
+      - 'v*'
   pull_request:
     branches:
       - main
@@ -31,8 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check native bridge JavaScript
-        run: node --check frontend/native-bridge.js
+      - name: Check frontend JavaScript
+        shell: pwsh
+        run: |
+          node --check frontend/native-bridge.js
+          if (Test-Path "frontend/planner.js") { node --check frontend/planner.js }
 
       - name: Compile Noctem Locus
         run: npm run build -- --no-bundle

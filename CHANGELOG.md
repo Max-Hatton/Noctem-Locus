@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.10.0 — Observing planner and local horizons
+- Added a new **Planner** page for building an observing night around what is actually visible.
+- Added configurable 4–12 hour planning windows and target-count controls.
+- Added automatic target ranking using altitude, darkness/twilight, Moon interference, telescope aperture, and local obstructions.
+- Added **Auto-build plan** plus manual add, remove, and reorder controls for the observing queue.
+- Added **Observing Session** mode with target-by-target progression, Push-To handoff, observed/skip actions, and direct observation-log handoff.
+- Added persistent planner state and lightweight completed-session history.
+- Added multiple saved observing-site profiles.
+- Added eight-direction custom local-horizon profiles (N, NE, E, SE, S, SW, W, NW) with interpolation between directions.
+- Integrated the active site's local horizon into object ratings so blocked objects can be distinguished from objects that are simply astronomically above the horizon.
+- Added planner messaging for objects blocked by the local horizon and estimated obstruction-clear times.
+- Split the new planner/site functionality into `frontend/planner.js` so future feature development no longer requires expanding the original single-file astronomy engine.
+- Updated Windows validation to check all version branches and syntax-check the planner feature layer before compiling the Tauri application.
+
 ## v0.9.1 — Native data foundation
 - Moved the working copy of settings, telescope/eyepiece profiles, alignment data, and observation metadata into a native `state.json` file under the Noctem Locus application-data directory.
 - Moved new observation photo storage from IndexedDB to real managed files in the native application-data directory.
