@@ -241,7 +241,7 @@
       if (status === 'skipped') s.skipped = [...new Set([...(s.skipped || []), key])];
     }
     s.index += 1;
-    if (s.index >= settings.planner.queue.length) endSession(false);
+    if (s.index >= settings.planner.queue.length) endSession(true);
     else savePlannerAndRender();
   }
 
@@ -306,6 +306,7 @@
     const best = c.clear
       ? `${timeLabel(c.date)} · ${c.p.altitudeDeg.toFixed(0)}° high`
       : 'Not clear of local horizon';
+    const clearNote = nowBlocked && c.firstClear ? ` · clears local horizon about ${timeLabel(c.firstClear)}` : '';
     const reason = c.rating?.reason || '';
     return `<article class="v10TargetCard">
       <div class="v10TargetTop">
@@ -316,7 +317,7 @@
         <span>Now <strong>${c.nowP.altitudeDeg.toFixed(0)}° · ${compassDirection(c.nowP.azimuthDeg)}</strong></span>
         <span>Best <strong>${best}</strong></span>
       </div>
-      <small>${esc(status)}${reason ? ` · ${esc(reason)}` : ''}</small>
+      <small>${esc(status)}${clearNote}${reason ? ` · ${esc(reason)}` : ''}</small>
       <button class="miniButton" data-planner-add="${esc(c.obj.key)}">Add to plan</button>
     </article>`;
   }
