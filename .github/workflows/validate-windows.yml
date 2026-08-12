@@ -1,9 +1,6 @@
 name: Validate Windows Build
 
 on:
-  push:
-    branches:
-      - 'v*'
   pull_request:
     branches:
       - main
@@ -34,8 +31,7 @@ jobs:
       - name: Check frontend JavaScript
         shell: pwsh
         run: |
-          node --check frontend/native-bridge.js
-          if (Test-Path "frontend/planner.js") { node --check frontend/planner.js }
+          Get-ChildItem frontend -Filter *.js | ForEach-Object { node --check $_.FullName }
 
       - name: Compile Noctem Locus
         run: npm run build -- --no-bundle
