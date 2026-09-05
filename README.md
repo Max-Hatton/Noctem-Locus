@@ -6,7 +6,52 @@ Noctem Locus is an observing application built for use beside a telescope. Its a
 
 ## Current version
 
-**v0.12.0** — astronomy weather + smart observing alerts.
+**v0.14.0** — offline Moon Map with lunar features, phase shading, and calibrated Dobsonian orientation.
+
+## Moon Map
+
+Open **Moon Map**, directly beneath **Sky Map**. The map starts at the current time
+and saved observing site. Drag to pan, scroll to zoom, or search the 9,086 named
+lunar features. Select a feature for its coordinates, diameter, illumination, and
+**Center on feature**. Labels remain upright while the map rotates.
+
+**Phase shading** draws the lunar day/night boundary. **Reveal unlit terrain**
+keeps dark-side geography readable; turning phase shading off shows the full
+visible hemisphere. Changing the date uses a fixed observing time; **Now** resumes
+live time. Map geometry includes the Moon's libration and the observing site's
+topocentric viewpoint. Date entry supports 1900–2100.
+
+**Dobsonian · automatic** applies the horizon-relative Newtonian orientation.
+Use the rotation controls to match a known crater pattern in the eyepiece, expand
+**Match my eyepiece**, and choose **Save match**. The app saves a separate offset
+and mirror setting for each telescope. The Orion XT8 IntelliScope preset uses
+203 mm aperture and 1200 mm focal length, from Orion's instruction manual. Existing
+equipment profiles and the active equipment selection are preserved. A consistent
+head position at the focuser is needed; the app does not measure eyepiece roll.
+Near the zenith, automatic rotation temporarily retains its last stable angle.
+
+Use saved eyepieces or **Custom eyepiece** to display a field-of-view circle.
+The field calculation needs both focal length and apparent field of view (AFOV);
+the app does not guess AFOV from barrel size. **Fit eyepiece field** sets the map
+scale for that field. Arrow keys pan the focused map, +/− zoom, and 0 fits the Moon.
+
+All lunar imagery, feature data, and astronomy code are bundled for offline use.
+The 4096×2048 reference mosaic resolves roughly 2.67 km per pixel at the equator.
+Its terrain shadows are fixed from the source images. Phase shading does not
+simulate individual crater shadows or lunar eclipses. See
+[`frontend/data/MOON_DATA.md`](frontend/data/MOON_DATA.md) and
+[`frontend/vendor/README.md`](frontend/vendor/README.md) for sources and accuracy.
+
+### Preview and checks
+
+With Node.js installed, run `node scripts/preview.mjs` and open the printed local
+address. The preview uses a separate browser session with a labeled Chicago test
+site and does not access the desktop app's data. It is for UI verification;
+native backup, notifications, and photo operations require the desktop build.
+
+Run `npm run test:moon` for the geometry, renderer, and integration checks. The
+astronomy test includes eight independent NASA ephemeris fixtures and 24
+observer/time cases. Normal Tauri development and build commands are below.
 
 The current application includes:
 

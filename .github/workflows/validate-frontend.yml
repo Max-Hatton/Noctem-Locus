@@ -15,21 +15,9 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-      - name: Syntax-check frontend JavaScript
-        run: |
-          node --version
-          for file in frontend/*.js; do
-            [ -e "$file" ] || continue
-            node --check "$file"
-          done
-      - name: Validate expanded catalog
-        run: |
-          if [ -f frontend/catalog-v011.js ]; then
-            node scripts/check-catalog-v011.mjs
-            node scripts/smoke-catalog-runtime-v011.mjs
-          fi
-      - name: Validate astronomy weather runtime
-        run: |
-          if [ -f frontend/weather-v012.js ]; then
-            node scripts/smoke-weather-runtime-v012.mjs
-          fi
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check frontend and Moon Map
+        run: npm test

@@ -5,7 +5,7 @@
   const invoke = window.__TAURI__?.core?.invoke;
   if (!invoke) return;
 
-  const VERSION = '0.13.0';
+  const VERSION = '0.14.0';
   const legacySaveSettings = typeof saveSettings === 'function' ? saveSettings : null;
   const legacyPhotoPut = typeof photoDbPut === 'function' ? photoDbPut : null;
   const legacyPhotoGet = typeof photoDbGet === 'function' ? photoDbGet : null;
@@ -401,7 +401,12 @@
       ['sky-render-v011.js','v0.11-sky'],
       ['sky-ui-v011.js','v0.11-sky-ui'],
       ['weather-v012.js','v0.12-weather-alerts'],
-      ['insights-v013.js','v0.13-observing-insights']
+      ['insights-v013.js','v0.13-observing-insights'],
+      ['vendor/astronomy.browser.min.js','moon-astronomy'],
+      ['moon-core.js','moon-geometry'],
+      ['moon-features.js','moon-catalog'],
+      ['moon-render.js','moon-surface'],
+      ['moon-map.js','moon-map']
     ]) await loadFeatureScript(file, tag);
     if (typeof renderShell === 'function') renderShell();
   }

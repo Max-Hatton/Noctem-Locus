@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.14.0 — Moon Map
+- Added a dedicated Moon Map tab directly beneath Sky Map.
+- Bundled a 4096×2048 LROC reference mosaic and 9,086 official IAU/USGS lunar features.
+- Added live/fixed observing time, phase shading, unlit-terrain reveal, search, feature details, zoom, pan, upright labels, and lunar coordinate grid.
+- Added topocentric lunar surface geometry, libration, and horizon-relative Dobsonian rotation with a saved eyepiece calibration per telescope.
+- Added the XT8 IntelliScope map preset, existing/custom eyepiece field overlays, and north-up/manual/mirrored view controls.
+- Added offline NASA-reference geometry checks, renderer checks, integration checks, and a browser preview command.
+- Existing equipment, sites, logs, and backup state remain compatible.
+
 ## v0.13.0 — Observing insights, target visibility, and weather clarity
 - Made precipitation impossible to miss: current rain/showers/snow/thunderstorm conditions now appear prominently with weather icons, hourly precipitation probability, and precipitation amount.
 - Added precipitation-aware observing-score caps so active rain/snow cannot score above 10/100 and thunderstorms cannot score above 5/100; very high precipitation probability is also strongly capped.
