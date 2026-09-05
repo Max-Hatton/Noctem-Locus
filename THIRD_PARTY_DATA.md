@@ -44,3 +44,13 @@ Noctem Locus-derived values such as **Observing Score**, **dew risk**, **estimat
 ## Generated catalog artifact
 
 `frontend/catalog-v011.js` is a transformed/compact data artifact derived from HYG and OpenNGC. That generated catalog data is distributed under **CC BY-SA 4.0**. This data license does not change the separate licensing status of the Noctem Locus application source code.
+# Moon Map data and astronomy
+
+The v0.14 Moon Map bundles NASA/LROC/ASU/USGS lunar imagery and the IAU/USGS
+Gazetteer feature catalog. Source attribution, projection, snapshot hashes,
+and limits are documented in [MOON_DATA.md](frontend/data/MOON_DATA.md).
+
+Astronomy Engine v2.1.19 is vendored under its MIT license. See
+[vendor provenance](frontend/vendor/README.md) and
+[license](frontend/vendor/astronomy-engine.LICENSE). Lunar pole and body-frame
+orientation use the published IAU lunar rotation model.

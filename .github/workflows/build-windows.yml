@@ -44,6 +44,10 @@ jobs:
         if: steps.source.outputs.ready == 'true'
         run: npm install
 
+      - name: Validate frontend and Moon Map
+        if: steps.source.outputs.ready == 'true'
+        run: npm test
+
       - name: Build and publish release
         if: steps.source.outputs.ready == 'true'
         uses: tauri-apps/tauri-action@v1
@@ -53,9 +57,13 @@ jobs:
           tagName: v__VERSION__
           releaseName: Noctem Locus v__VERSION__
           releaseBody: |
-            Automated Windows beta build of Noctem Locus.
+            Moon Map adds an offline lunar surface atlas, 9,086 named features, phase shading, and a calibrated Dobsonian view that follows the Moon's orientation over time.
+
+            Open Moon Map directly beneath Sky Map. Includes the Orion XT8 IntelliScope profile, eyepiece field controls, feature search, pan, zoom, and night mode.
 
             Download the Windows setup executable from the assets below.
+
+            Terrain shadows come from the reference mosaic; phase shading models the lunar day/night boundary. Match the map to your eyepiece once and adjust again if your viewing posture changes.
 
             Current beta installers are unsigned and Windows may show an unknown-publisher warning.
           releaseDraft: false

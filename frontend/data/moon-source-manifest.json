@@ -1,0 +1,16 @@
+{
+  "snapshotDate": "2026-09-04",
+  "count": 9086,
+  "source": "IAU/USGS Gazetteer of Planetary Nomenclature",
+  "catalogUrl": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MOON_nomenclature_center_pts.kmz",
+  "catalogSha256": "f0405f43268caa0eb579b4274a19121cdb57ec09f324950ea4b010ddcbb538bf",
+  "imageUrl": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=LROC_WAC&STYLES=&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=4096&HEIGHT=2048&FORMAT=image/jpeg",
+  "imageSha256": "b63299f1d6725d1298e1fbe3bea1865fa038b43b5d6ef2a53d7d37418e51d161",
+  "projection": "equirectangular",
+  "longitudeWest": -180,
+  "longitudeEast": 180,
+  "latitudeTop": 90,
+  "latitudeBottom": -90,
+  "width": 4096,
+  "height": 2048
+}
